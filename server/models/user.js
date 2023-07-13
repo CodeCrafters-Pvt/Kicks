@@ -12,7 +12,7 @@ const UserSchema=new Schema({
     },
     phoneNumber:{
         type:String,
-        required:true,
+        required:false,
     },
     email:{
         type:String,
@@ -20,7 +20,7 @@ const UserSchema=new Schema({
     },
     address:{
         type:String,
-        required:true,
+        required:false,
     },
     userAccount: {
         username: {
@@ -36,6 +36,18 @@ const UserSchema=new Schema({
           required: false,
         },
       },
+    isPremium: {
+        type: Boolean,
+        default: false,
+    },
+    isActive: {
+        type: Boolean,
+        default: true,
+    },
+    deactivationDate: {
+        type: Date,
+        required: false,
+    },
 },{timestamps:false})
 
 module.exports=mongoose.model('User',UserSchema)
