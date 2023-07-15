@@ -1,5 +1,5 @@
 import {createBrowserRouter,createRoutesFromElements,Route,RouterProvider,Outlet} from "react-router-dom";
-import Register from "./pages/user/register/components/Register";
+import Register from "./pages/user/Register";
 
 
 function App() {
