@@ -6,7 +6,7 @@ function App() {
   const Root=()=>{
     return(
         <>
-          <div>
+          <div className="font-general">
             <Outlet/>
           </div>
         </>
