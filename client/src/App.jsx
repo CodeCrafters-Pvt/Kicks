@@ -1,7 +1,7 @@
 import {createBrowserRouter,createRoutesFromElements,Route,RouterProvider,Outlet} from "react-router-dom";
 import Register from "./pages/user/Register";
-
-
+import Products from "./pages/product/collection/Product"
+import NewProduct from "./pages/product/newProduct/NewProduct";
 function App() {
   const Root=()=>{
     return(
@@ -16,6 +16,8 @@ function App() {
     createRoutesFromElements( 
       <Route path="/" element={<Root/>}>
           <Route path="/" element={<Register/>}/>
+          <Route path="/product" element={<Products/>}/>
+          <Route path="/newproduct" element={<NewProduct/>}/>
       </Route>
     ))
   

@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 
-export default function Input({field,label,isRequired,type,className}) {
+export default function Input({field,label,isRequired,type}) {
+
+  
   return (
     <div className={`mx-2 my-2`}>
         <div className>
