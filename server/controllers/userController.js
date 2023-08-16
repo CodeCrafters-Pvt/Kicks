@@ -4,6 +4,9 @@ const OtpModel= require('../models/otp')
 const bcrypt = require('bcryptjs')
 const sendEmail = require('../middlewears/email')
 const otpGenerator = require('otp-generator')
+const {createToken} =require('./authController')
+
+
 
 
 //get all user details
@@ -17,10 +20,38 @@ const getAllUsers = async (req,res)=>{
     }
 }
 
+const getUser= async (req,res)=>{
+    try{
+        const { email }=req.params
+        if(! email) return res.status(404).json({error:"Missing credentials"})
+        const user=await UserModel.findOne({
+            email:email,
+        })
+        if(!user) return res.status(404).json({error:"User not found"})
+
+        const { userAccount, _id , isPremium , isActive } = user;
+        const {  username,profilepic } = userAccount;
+        const userDetails = {
+            _id,
+            email,
+            username,
+            profilepic,
+            isPremium,
+            isActive
+          };          
+
+        res.status(200).json({userDetails,message:"User Account Retrieved successfully"})
+    }
+    catch(error){
+        res.status(400).json({error:error.message})
+    }
+}
+
 //send OTP
 const sendOtp = async (req,res)=>{
     const {email,userName} =req.body;
     try{
+        if(!email || !userName) return res.status(400).json({error:"Missing Credentials"})
         //check if credentials are already taken
         const existingUserName=await UserModel.findOne({"userAccount.username":userName});
         const existingUserEmail=await UserModel.findOne({email:email});
@@ -38,7 +69,7 @@ const sendOtp = async (req,res)=>{
             otp:hashedOTP,
             email:email,
         })
-        res.status(200).json(savedOTP)
+        res.status(200).json({otp:savedOTP,message:"OTP sent successfully"})
     }
     catch(error){
         res.status(400).json({error:error.message})
@@ -66,7 +97,8 @@ const createUser = async (req,res)=>{
             const otpDelete= await OtpModel.deleteMany({
                 email : lastOtp.email
             })
-            return res.status(201).json(user)
+            const token=createToken(user._id)
+            return res.status(201).json({token,message:"Registration Successful"})
         }    
         return res.status(400).json({error:"Invalid OTP"})    
     }
@@ -145,4 +177,4 @@ const reactivateUser = async (req, res) => {
 
 
 
-module.exports={createUser,getAllUsers,deactivateUser,reactivateUser,removeUser,sendOtp}
+module.exports={createUser,getAllUsers,getUser,deactivateUser,reactivateUser,removeUser,sendOtp}
