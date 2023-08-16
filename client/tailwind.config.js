@@ -23,6 +23,7 @@ export default {
         userMgtBg:"#FFECEC",
         primaryDark: "#58E6D9",
         secondaryDark: "#58E6D9",
+        inputOnFocus: "#c7c6eb",
       },
       screens: {
         "2xl": { max: "1535px" },

@@ -17,6 +17,10 @@ app.use((req,res,next)=>{
 const userRouter=require('./routes/user')
 app.use("/users",userRouter);
 
+const authRouter=require('./routes/auth')
+app.use("/auth",authRouter);
+
+
 
 
 mongoose.connect(process.env.MONGO_URI)

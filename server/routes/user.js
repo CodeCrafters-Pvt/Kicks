@@ -1,9 +1,13 @@
 const express = require('express');
+const requireAuth=require('../middlewears/requireAuth')
+const { createUser,getAllUsers,getUser,deactivateUser,reactivateUser,removeUser,sendOtp } = require('../controllers/userController');
+
 const router=express.Router();
-const { createUser,getAllUsers,deactivateUser,reactivateUser,removeUser,sendOtp } = require('../controllers/userController');
+// router.use(requireAuth)
 
 
-router.get("/",getAllUsers);
+router.get("/allUsers",getAllUsers);
+router.get("/getUser/:email",getUser);
 router.post("/signup/verify",sendOtp);
 router.post("/signup",createUser);
 router.delete("/",removeUser);
