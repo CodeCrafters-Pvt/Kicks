@@ -20,7 +20,7 @@ export default function Register() {
     },
     confirmPassword: '',
   })
-
+  const [isClicked, setIsClicked] = useState(false);
 
   const validationSchema = Yup.object().shape({
     email: Yup.string().email('Invalid').required('Required'),
@@ -36,7 +36,8 @@ export default function Register() {
   const [otp, setOtp] = useState('');
   const [isConfirmed,setIsConfirmed]=useState(false)
 
-  const reqOtp = (values,isValid,dirty) => {  
+  const reqOtp = (values,isValid,dirty) => {
+      setIsClicked(true)
       if(isValid && dirty){
         dispatch(requestOtp(values))
         .unwrap()
@@ -82,20 +83,22 @@ export default function Register() {
             {!isConfirmed?
             <div className='flex flex-col'>
               <Field name="userAccount.username" label="User Name" component={Input} placeholder="User Name" 
-                errorId="userName" errorMsg={errors?.userAccount?.username}/>
+               isBtnClicked={isClicked} errorId="userName" errorMsg={errors?.userAccount?.username}/>
               <Field name="email" label="E-mail" component={Input} placeholder="E-mail" type="text"
-               errorId="email"  errorMsg={errors?.email}/>
+              isBtnClicked={isClicked} errorId="email"  errorMsg={errors?.email}/>
               <Field name="userAccount.password" type="password" label="Password" component={Input} placeholder="Password" 
-              errorId="password"  errorMsg={errors?.userAccount?.password}/>
+              isBtnClicked={isClicked} errorId="password"  errorMsg={errors?.userAccount?.password}/>
               <Field name="confirmPassword" type="password" label="Confirm Password" component={Input} placeholder="Password" 
-               errorId="confirmPass"  errorMsg={errors?.confirmPassword}/>
+              isBtnClicked={isClicked} errorId="confirmPass"  errorMsg={errors?.confirmPassword}/>
               <small className='ml-2 mt-1'>Already have an account? <Link to="/" className='text-primary'>Sign-In</Link></small>
                 <Button text="Register" type="button" className='m-1 mt-3 w-full'
                   onClick={() => 
                   { 
                     validateForm()
                     reqOtp(values,isValid,dirty)
-                  }} />
+                    }} 
+                  onMouseUp={()=>setIsClicked(false)}
+                    />
             </div>
             :
             <div className=' flex flex-col justify-between'>

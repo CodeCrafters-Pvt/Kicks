@@ -1,8 +1,9 @@
-import { useState} from 'react'
+import { useEffect, useState,useRef } from 'react'
 import PropTypes from 'prop-types';
 import Select from 'react-select';
 import { Tooltip } from 'react-tooltip'
 import { MdErrorOutline } from 'react-icons/md'
+import { motion } from 'framer-motion';
 
 export default function Input({
   field,
@@ -16,12 +17,26 @@ export default function Input({
   textArea=false,
   options,
   setFieldValue,
+  isBtnClicked,
   errorId,
   errorMsg
 }) 
-  {
+{
+  const inputRef = useRef(null)
   const [isInputFocused, setInputFocused] = useState(false);
-  
+  const [initialClick, setInitialClick] = useState(false);
+
+  useEffect(()=>{
+    if(!initialClick) setInitialClick(isBtnClicked)
+  },[isBtnClicked])
+
+  const handleDivClick = () => {
+    setInputFocused(true)
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  };
+
   return (
     <div className={`mx-2 my-2 flex flex-col gap-1 `}>
         <div className={`flex justify-between items-center ${contStyle}`}>
@@ -32,25 +47,32 @@ export default function Input({
         {/* Default Input */}
         { !textArea && type !== 'select' &&
         <div className='flex'>
-        <input {...field} type={type} id={field.name} placeholder={`${placeholder ?`Enter ${placeholder}`:''}`}
+        <motion.input {...field} type={type} id={field.name} placeholder={`${placeholder ?`Enter ${placeholder}`:''}`}
+        ref={inputRef}
          onFocus={() => setInputFocused(true)} 
-         onBlur={()=>setInputFocused(false)} 
+         onBlur={()=>setInputFocused(false)}
+         animate={{
+          x: (errorMsg && isBtnClicked) ? [null, -5, 5, -3, 3, 0] : 0, // Vibration effect
+        }} 
         className=
         {`border border-r-0 border-dark w-[14vw] rounded-l-[0.3rem]  px-2 leading-7 
         ${isInputFocused && ' outline-none border-inputOnFocus '}
-        ${errorMsg && 'border-red-500 focus:border-red-500 focus:ring-red-500'} 
+        ${initialClick && errorMsg && 'border-red-500 focus:border-red-500 focus:ring-red-500'} 
         ${inputStyle}`}/> 
 
-        <div 
+        <motion.div 
         tabIndex="0"
-        onClick={() => setInputFocused(true)} 
+        onClick={handleDivClick} 
         onBlur={() => setInputFocused(false)}
+        animate={{
+          x: (errorMsg && isBtnClicked) ? [null, -5, 5, -3, 3, 0] : 0,
+        }}
         className=
         {`h-8 cursor-text bg-light flex items-center border border-l-0 border-dark rounded-r-[0.3rem] w-5
         ${isInputFocused && 'outline-none border-inputOnFocus'}
-        ${errorMsg && 'border-red-500 focus:border-red-500 focus:ring-red-500'}
+        ${initialClick && errorMsg && 'border-red-500 focus:border-red-500 focus:ring-red-500'}
         `}>
-          {( errorMsg && errorMsg!=='' ) && 
+          {( initialClick && errorMsg ) && 
           <>
             <MdErrorOutline className={`error-msg-${errorId} mr-1 text-red-600 cursor-pointer outline-none`}/>
             <Tooltip anchorSelect={`.error-msg-${errorId}`}  place="top" variant="error">
@@ -59,7 +81,7 @@ export default function Input({
           </>
           }
           
-        </div>
+        </motion.div>
         </div>
         }
 
@@ -100,6 +122,7 @@ export default function Input({
     textArea:PropTypes.bool,
     options:PropTypes.array,
     setFieldValue:PropTypes.func,
+    isBtnClicked:PropTypes.bool,
     errorId:PropTypes.string,
     errorMsg:PropTypes.string,
   }
