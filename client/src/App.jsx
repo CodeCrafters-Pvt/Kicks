@@ -6,8 +6,8 @@ import {RegisterUser,Login} from "./pages";
 import Profile from "./pages/user/Profile"
 
 
-
-
+import Products from "./pages/product/collection/Product"
+import NewProduct from "./pages/product/newProduct/NewProduct";
 function App() {
   const Root=()=>{
     return(
@@ -25,6 +25,8 @@ function App() {
           <Route path="/" element={<RegisterUser/>}/>
           <Route path="/login" element={<Login/>}/>
           <Route path="/ss" element={<Profile/>}/>
+          <Route path="/product" element={<Products/>}/>
+          <Route path="/newproduct" element={<NewProduct/>}/>
       </Route>
     ))
   

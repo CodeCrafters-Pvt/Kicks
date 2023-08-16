@@ -13,6 +13,9 @@ app.use((req,res,next)=>{
     next()
 })
 
+const multer = require('multer')
+const path = require('path')
+
 //Routers
 const userRouter=require('./routes/user')
 app.use("/users",userRouter);
@@ -20,6 +23,8 @@ app.use("/users",userRouter);
 const authRouter=require('./routes/auth')
 app.use("/auth",authRouter);
 
+const productRouter = require('./routes/product')
+app.use("/products",productRouter);
 
 
 
