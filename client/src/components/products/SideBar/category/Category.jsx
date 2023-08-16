@@ -1,30 +1,37 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Input from '../Label';
+import PropTypes from 'prop-types';
 
-const Category = () => {
+const Category = ({handleChange}) => {
+  const [showOptions, setShowOptions] = useState(false);
+
+  const handleToggleOptions = () => {
+    setShowOptions(!showOptions);
+  };
+
   return (
     <div>
-      <label className="flex items-center mb-2">
-        <input type="radio" name="test" className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out" />
-        <span className="ml-2">All</span>
-      </label>
-      <label className="flex items-center mb-2">
-        <input type="radio" name="test" className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out" />
-        <span className="ml-2">Sneakers</span>
-      </label>
-      <label className="flex items-center mb-2">
-        <input type="radio" name="test" className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out" />
-        <span className="ml-2">Flats</span>
-      </label>
-      <label className="flex items-center mb-2">
-        <input type="radio" name="test" className="form-radio h-4 w-4 text-indigo-600 transition duration-150 ease-in-out" />
-        <span className="ml-2">Sandals</span>
-      </label>
-      <label className="flex items-center mb-2">
-        <input type="radio" name="test" className="form-radio h-4 w-4 text-indigo-600 transition duration-150  ease-in-out" />
-        <span className="ml-2">Heels</span>
-      </label>
+      <div className="cursor-pointer" onClick={handleToggleOptions}>
+        <span className="flex items-center mb-2">
+          <h2 className='text-lg font-semibold mb-2'>Category</h2>
+        </span>
+      </div>
+      {showOptions && (
+        <>
+          <Input name="test" value='All' label="All"  handleChange={handleChange}/>
+          <Input name="test" value='Sneakers' label="Sneakers"  handleChange={handleChange} />
+          <Input name="test" value='Flats' label="Flats"  handleChange={handleChange}/>
+          <Input name="test" value='Sandals' label="Sandals"  handleChange={handleChange}/>
+          <Input name="test" value='Heels' label="Heels"  handleChange={handleChange}/>
+        </>
+      )}
     </div>
   );
 };
+
+Category.propTypes = {
+  handleChange: PropTypes.func, // Define PropTypes for handleChange prop
+};
+
 
 export default Category;

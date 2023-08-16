@@ -13,17 +13,34 @@ const getAllProducts = async (req,res)=>{
 }
 
 
-//create product
 const createProduct = async (req, res) => {
-    const productDetails=req.body;
-    // try{
-        const product= await ProductModel.create(productDetails);
-        res.status(201).json(product)
-    // }
-    // catch(error){
-    //     res.status(400).json({error:error.message})
-    // }
-  };
+  const productDetails = req.body;
+
+  if (productDetails.images && productDetails.images.length > 0) {
+    productDetails.images = productDetails.images.map(
+      (image) => `Kicks/images/${image.name}`
+    );
+  }
+
+  try {
+    const product = await ProductModel.create(productDetails);
+    res.status(201).json(product);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+//create product
+// const createProduct = async (req, res) => {
+//     const productDetails=req.body;
+//     // try{
+//         const product= await ProductModel.create(productDetails);
+//         res.status(201).json(product)
+//     // }
+//     // catch(error){
+//     //     res.status(400).json({error:error.message})
+//     // }
+//   };
   
 
 

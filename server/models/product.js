@@ -57,15 +57,8 @@ const ProductSchema = new Schema(
       type: String,
       required: false,
     },
-    // image: {
-    //   data: Buffer, 
-    //   contentType: String, 
-      
-    // },
-    image: {
-      type: String, 
-     required:true, 
-  },
+   
+    images: [{ type: String, required: false }], // Add an array of image filenames
   },
   { timestamps: false }
 );
