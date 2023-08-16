@@ -3,7 +3,7 @@ const requireAuth=require('../middlewears/requireAuth')
 const { createUser,getAllUsers,getUser,deactivateUser,reactivateUser,removeUser,sendOtp } = require('../controllers/userController');
 
 const router=express.Router();
-// router.use(requireAuth)
+router.use(requireAuth)
 
 
 router.get("/allUsers",getAllUsers);

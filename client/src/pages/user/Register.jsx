@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Formik, Form, Field } from 'formik';
+import { Formik, Form, Field } from 'formik';;
 import * as Yup from 'yup';
 import {Link,useNavigate } from 'react-router-dom';
 import OtpInput from 'react-otp-input';
@@ -35,20 +35,25 @@ export default function Register() {
 
   const [otp, setOtp] = useState('');
   const [isConfirmed,setIsConfirmed]=useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   const reqOtp = (values,isValid,dirty) => {
       setIsClicked(true)
       if(isValid && dirty){
+        setIsLoading(true)
         dispatch(requestOtp(values))
         .unwrap()
         .then(() => {
           setIsConfirmed(true);
           setInitialValues(values);
+          setIsLoading(false)
         })
         .catch((error) => {
           console.log(error);
+          setIsLoading(false)
         });
       }
+      
   };
 
   const resendOtp = async (values)=>{
@@ -78,7 +83,7 @@ export default function Register() {
     <AuthLayout>
       <h5 className='font-heading text-4xl mt-10'>Create An Account</h5>
       <Formik initialValues={initialValues} onSubmit={handleRegister} validationSchema={validationSchema}>
-          {({values,errors,isValid,dirty,validateForm}) => (
+          {({values,errors,isValid,dirty,validateForm,isSubmitting}) => (
             <Form>
             {!isConfirmed?
             <div className='flex flex-col'>
@@ -91,7 +96,7 @@ export default function Register() {
               <Field name="confirmPassword" type="password" label="Confirm Password" component={Input} placeholder="Password" 
               isBtnClicked={isClicked} errorId="confirmPass"  errorMsg={errors?.confirmPassword}/>
               <small className='ml-2 mt-1'>Already have an account? <Link to="/" className='text-primary'>Sign-In</Link></small>
-                <Button text="Register" type="button" className='m-1 mt-3 w-full'
+                <Button text="Register" type="button" className='m-1 mt-3 w-full' disabled={isLoading}
                   onClick={() => 
                   { 
                     validateForm()

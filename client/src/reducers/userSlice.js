@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios';
 import toast from 'react-hot-toast';
 
+const token=JSON.parse(localStorage.getItem('user'))?.token;
 
 export const requestOtp = createAsyncThunk(
   'user/requestOtp',
@@ -10,7 +11,12 @@ export const requestOtp = createAsyncThunk(
     toast.loading('Loading...');
     try {
       const data = { email: values.email, userName: values.userAccount.username };
-      const response = await axios.post("http://localhost:3001/users/signup/verify", data);
+      const response = await axios.post("http://localhost:3001/users/signup/verify", data,
+      {
+        headers:{
+          'Authorization' : `Bearer ${token}`
+        }
+      });
       return response.data.message;
     } catch (error) {
       return rejectWithValue(error.response.data.error);
@@ -24,7 +30,12 @@ export const registerUser = createAsyncThunk(
     toast.dismiss()
     toast.loading('Loading...');
     try {
-      const response = await axios.post("http://localhost:3001/users/signup", reqData);
+      const response = await axios.post("http://localhost:3001/users/signup", reqData,
+      {
+        headers:{
+          'Authorization' : `Bearer ${token}`
+        }
+      });
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data.error);

@@ -52,7 +52,7 @@ export default function Input({
          onFocus={() => setInputFocused(true)} 
          onBlur={()=>setInputFocused(false)}
          animate={{
-          x: (errorMsg && isBtnClicked) ? [null, -5, 5, -3, 3, 0] : 0, // Vibration effect
+          x: (errorMsg && isBtnClicked) ? [null, -5, 5, -3, 3, 0] : 0,
         }} 
         className=
         {`border border-r-0 border-dark w-[14vw] rounded-l-[0.3rem]  px-2 leading-7 
