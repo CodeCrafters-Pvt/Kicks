@@ -10,7 +10,7 @@ import { login } from '../../reducers';
 export default function Login() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-  const [isClicked, setIsClicked] = useState(false);
+    const [isClicked, setIsClicked] = useState(false);
     
     const handleLogin = (values) => {
         dispatch(login(values))
@@ -28,12 +28,14 @@ export default function Login() {
     const initialValues={
         email: '',
         password: '',
+        test:'',
     }
 
     const validationSchema = Yup.object().shape({
         email: Yup.string()
           .email('Invalid')
           .required('required'),
+        test: Yup.string().oneOf(['option1', 'option2']).required('required'),
         password: Yup.string()
           .required('required')
       });
