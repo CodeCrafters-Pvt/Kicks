@@ -83,7 +83,7 @@ export default function Register() {
     <AuthLayout>
       <h5 className='font-heading text-4xl mt-10'>Create An Account</h5>
       <Formik initialValues={initialValues} onSubmit={handleRegister} validationSchema={validationSchema}>
-          {({values,errors,isValid,dirty,validateForm,isSubmitting}) => (
+          {({values,errors,isValid,dirty,validateForm}) => (
             <Form>
             {!isConfirmed?
             <div className='flex flex-col'>

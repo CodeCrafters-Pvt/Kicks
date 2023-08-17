@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import { Formik, Form, Field} from 'formik';
 import axios from 'axios'
-import Input from '../../../components/user/register/Input';
+import {Input} from '../../../components';
 
 
 
 const NewProduct = () => {
    const [file,setFile] = useState()
 
-   const handleUpload = (e) => {
+   const handleUpload = () => {
     const formdata = new FormData()
     formdata.append('file', file)
     axios.post("http://localhost:3001/products/upload", formdata).then(res => console.log(res))
@@ -51,25 +51,28 @@ const NewProduct = () => {
           <div className="flex items-center justify-between mb-4">
             {/* Left side (fields) */}
             <div className="flex flex-col">
-              <Field name="productID" label="Product ID" component={Input} />
+              <Field name="productID" label="Product ID" component={Input} 
+              type="color" options={["black","blue","red","yellow","green","purple","orange"]}
+              colorSize={30} paletteWidth="12vw" errorMsg="hi"
+              />
               <Field name="productName" label="Product Name" component={Input} />
-              <Field
+              {/* <Field
                 name="productCollection"
                 type="select"
                 label="Product Collection"
                 component={Input}
-              />
-              <Field name="category" type="select" label="Category" component={Input} />
-              <Field name="brandName" type="select" label="Brand Name" component={Input} />
+              /> */}
+              {/* <Field name="category" type="select" label="Category" component={Input} /> */}
+              {/* <Field name="brandName" type="select" label="Brand Name" component={Input} /> */}
               </div>
               <div className="flex flex-col">
-              <Field name="sizes.size" type="select" label="Size" component={Input} />
-              <Field
+              {/* <Field name="sizes.size" type="select" label="Size" component={Input} /> */}
+              {/* <Field
                 name="sizes.colors.color"
                 type="select"
                 label="Color"
                 component={Input}
-              />
+              /> */}
               <Field name="productDesc" label="Product Description" component={Input} />
               <Field name="regularPrice" label="Regular Price" component={Input} />
               <Field name="sellingPrice" label="Sale Price" component={Input} />
