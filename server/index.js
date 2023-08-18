@@ -20,6 +20,9 @@ const path = require('path')
 const userRouter=require('./routes/user')
 app.use("/users",userRouter);
 
+const authRouter=require('./routes/auth')
+app.use("/auth",authRouter);
+
 const productRouter = require('./routes/product')
 app.use("/products",productRouter);
 
