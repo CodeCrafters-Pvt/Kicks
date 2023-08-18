@@ -28,14 +28,12 @@ export default function Login() {
     const initialValues={
         email: '',
         password: '',
-        test:'',
     }
 
     const validationSchema = Yup.object().shape({
         email: Yup.string()
           .email('Invalid')
           .required('required'),
-        test: Yup.string().oneOf(['option1', 'option2']).required('required'),
         password: Yup.string()
           .required('required')
       });
