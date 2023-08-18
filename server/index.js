@@ -23,6 +23,10 @@ app.use("/users",userRouter);
 const productRouter = require('./routes/product')
 app.use("/products",productRouter);
 
+const cartRouter = require('./routes/cart')
+app.use("/cart",cartRouter);
+
+
 mongoose.connect(process.env.MONGO_URI)
 .then(()=>{
     app.listen(process.env.PORT,()=>{
