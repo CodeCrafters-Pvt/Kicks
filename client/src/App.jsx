@@ -2,10 +2,8 @@ import {createBrowserRouter,createRoutesFromElements,Route,RouterProvider,Outlet
 import {Toaster} from 'react-hot-toast';
 import { store } from "./store";
 import {Provider} from 'react-redux'
-import {RegisterUser,Login} from "./pages";
+import {RegisterUser,Login,ResetPassword,ForgotPassword} from "./pages";
 import Profile from "./pages/user/Profile"
-
-
 import Products from "./pages/product/collection/Product"
 import NewProduct from "./pages/product/newProduct/NewProduct";
 function App() {
@@ -27,6 +25,8 @@ function App() {
           <Route path="/ss" element={<Profile/>}/>
           <Route path="/product" element={<Products/>}/>
           <Route path="/newproduct" element={<NewProduct/>}/>
+          <Route path="/reset-password" element={<ForgotPassword/>}/>
+          <Route path="/reset-password/:token" element={<ResetPassword/>}/>
       </Route>
     ))
   

@@ -30,12 +30,8 @@ export const registerUser = createAsyncThunk(
     toast.dismiss()
     toast.loading('Loading...');
     try {
-      const response = await axios.post("http://localhost:3001/users/signup", reqData,
-      {
-        headers:{
-          'Authorization' : `Bearer ${token}`
-        }
-      });
+      const response = await axios.post("http://localhost:3001/users/signup", reqData);
+      console.log(response.data)
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data.error);
@@ -54,7 +50,7 @@ export const userSlice = createSlice({
     builder
       .addCase(requestOtp.fulfilled, (state, action) => {
         toast.dismiss()
-        toast.success(action.payload.message);
+        toast.success(action.payload);
       })
       .addCase(requestOtp.rejected, (state, action) => {
         toast.dismiss()

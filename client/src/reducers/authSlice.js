@@ -18,6 +18,37 @@ export const login = createAsyncThunk(
   }
 );
 
+export const reqResetPassword = createAsyncThunk(
+  'auth/reqResetPassword',
+  async (values, { rejectWithValue }) => {
+    toast.dismiss()
+    toast.loading('loading...');
+    try {
+      const data = { email: values.email };
+      const response = await axios.post("http://localhost:3001/auth/request-reset-password",data);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data.error);
+    }
+  }
+);
+
+export const resetPassword = createAsyncThunk(
+  'auth/resetPassword',
+  async (values, { rejectWithValue }) => {
+    toast.dismiss()
+    toast.loading('loading...');
+    try {
+      const data = { resetToken: values.resetToken,newPassword:values.newPassword };
+      console.log(data)
+      const response = await axios.post("http://localhost:3001/auth/reset-password",data);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data.error);
+    }
+  }
+);
+
 
 
 export const authSlice = createSlice({
@@ -36,6 +67,22 @@ export const authSlice = createSlice({
         toast.success(action.payload.message);
       })
       .addCase(login.rejected, (state, action) => {
+        toast.dismiss()
+        toast.error(action.payload);
+      })
+      .addCase(reqResetPassword.fulfilled, (state, action) => {
+        toast.dismiss()
+        toast.success(action.payload.message);
+      })
+      .addCase(reqResetPassword.rejected, (state, action) => {
+        toast.dismiss()
+        toast.error(action.payload);
+      })
+      .addCase(resetPassword.fulfilled, (state, action) => {
+        toast.dismiss()
+        toast.success(action.payload.message);
+      })
+      .addCase(resetPassword.rejected, (state, action) => {
         toast.dismiss()
         toast.error(action.payload);
       })

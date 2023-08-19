@@ -44,6 +44,11 @@ const UserSchema=new Schema({
         type: Boolean,
         default: true,
     },
+    resetToken: {
+        type: String,
+        default: null,
+        required: false,
+    },
     deactivationDate: {
         type: Date,
         required: false,

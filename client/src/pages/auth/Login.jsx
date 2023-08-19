@@ -11,14 +11,19 @@ export default function Login() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [isClicked, setIsClicked] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+
     
     const handleLogin = (values) => {
+        setIsLoading(true)
         dispatch(login(values))
         .unwrap()
         .then(() => {
+            setIsLoading(false)
             navigate('/')
           })
         .catch((error) => {
+            setIsLoading(false)
             console.log(error)
           });
       };
@@ -28,14 +33,12 @@ export default function Login() {
     const initialValues={
         email: '',
         password: '',
-        test:'',
     }
 
     const validationSchema = Yup.object().shape({
         email: Yup.string()
           .email('Invalid')
           .required('required'),
-        test: Yup.string().oneOf(['option1', 'option2']).required('required'),
         password: Yup.string()
           .required('required')
       });
@@ -54,12 +57,13 @@ export default function Login() {
                 <Field name="password" type="password" label="Password" component={Input} placeholder="Password"
                  errorId="password" errorMsg={errors?.password} isBtnClicked={isClicked}
                 />
-                <Link to="/" className='text-primary self-end'>
+                <Link to="/reset-password" className='text-primary self-end'>
                     <small >Forgot password?</small>
                 </Link>
                 <Button text="Login"  className='m-1 mt-3 w-full' 
                     onClick={()=>{setIsClicked(true)}}
                     onMouseUp={()=>setIsClicked(false)}
+                    disabled={isLoading}
                 />
             </div>
             </Form>)}
