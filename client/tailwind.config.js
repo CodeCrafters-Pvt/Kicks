@@ -24,6 +24,7 @@ export default {
         primaryDark: "#58E6D9",
         secondaryDark: "#58E6D9",
         inputOnFocus: "#c7c6eb",
+        textNormal: "#1E1E1E"
       },
       screens: {
         "2xl": { max: "1535px" },

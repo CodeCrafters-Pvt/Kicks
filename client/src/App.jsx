@@ -24,10 +24,10 @@ function App() {
   const router=createBrowserRouter(
     createRoutesFromElements( 
       <Route path="/" element={<Root/>}>
-      <Route path="/" element={<Register/>}/>
-      <Route path="/product" element={<Products/>}/>
-      <Route path="/newproduct" element={<NewProduct/>}/>
-      <Route path="/cart" element={<Cart/>}/>
+          
+          <Route path="/product" element={<Products/>}/>
+          <Route path="/newproduct" element={<NewProduct/>}/>
+          <Route path="/cart" element={<Cart/>}/>
           <Route path="/" element={<RegisterUser/>}/>
           <Route path="/login" element={<Login/>}/>
           <Route path="/ss" element={<Profile/>}/>
