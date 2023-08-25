@@ -1,6 +1,9 @@
-import RegisterUser from "./user/Register";
-import Login from "./auth/Login";
+import RegisterUser from "./Register";
+import Login from "./Login";
+import ResetPassword from "./ResetPassword";
+import ForgotPassword from "./ForgotPassword";
+import Profile from "./Profile";
 
 
 
-export {Login,RegisterUser}
+export {Login,RegisterUser,ResetPassword,ForgotPassword,Profile}

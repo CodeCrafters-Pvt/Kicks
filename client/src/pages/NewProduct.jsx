@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Formik, Form, Field} from 'formik';
 import axios from 'axios'
-import {Input} from '../../../components';
+import {Input} from '../components';
 
 
 

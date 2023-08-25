@@ -1,32 +1,25 @@
-import {createBrowserRouter,createRoutesFromElements,Route,RouterProvider,Outlet} from "react-router-dom";
-import {Toaster} from 'react-hot-toast';
-import { store } from "./store";
+import {createBrowserRouter,createRoutesFromElements,Route,RouterProvider} from "react-router-dom";
 import {Provider} from 'react-redux'
-import {RegisterUser,Login} from "./pages";
-import Profile from "./pages/user/Profile"
+import { store } from "./store";
+import {RegisterUser,Login,ResetPassword,ForgotPassword,Profile} from "./pages";
+import {RequireAuth} from "./components"
+import {RootLayout,AuthLayout} from "./layouts"
 
-
-import Products from "./pages/product/collection/Product"
-import NewProduct from "./pages/product/newProduct/NewProduct";
 function App() {
-  const Root=()=>{
-    return(
-        <>
-          <div className="font-general">
-            <Toaster/>
-            <Outlet/>
-          </div>
-        </>
-    )}
 
   const router=createBrowserRouter(
     createRoutesFromElements( 
-      <Route path="/" element={<Root/>}>
-          <Route path="/" element={<RegisterUser/>}/>
-          <Route path="/login" element={<Login/>}/>
-          <Route path="/ss" element={<Profile/>}/>
-          <Route path="/product" element={<Products/>}/>
-          <Route path="/newproduct" element={<NewProduct/>}/>
+      <Route path="/" element={<RootLayout/>}>
+        <Route  element={<AuthLayout/>}>
+            <Route path="/register" element={<RegisterUser/>}/>
+            <Route path="/login" element={<Login/>}/>
+            <Route path="/reset-password" element={<ForgotPassword/>}/>
+            <Route path="/reset-password/:token" element={<ResetPassword/>}/>
+        </Route>
+        <Route element={<RequireAuth/>}>
+          <Route path="/profile"  element={<Profile />} />
+        </Route>    
+        <Route path="*" element={<>Missing</>} />     
       </Route>
     ))
   

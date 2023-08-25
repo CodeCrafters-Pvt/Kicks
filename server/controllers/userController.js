@@ -69,7 +69,7 @@ const sendOtp = async (req,res)=>{
             otp:hashedOTP,
             email:email,
         })
-        res.status(200).json({otp:savedOTP,message:"OTP sent successfully"})
+        res.status(200).json({message:"OTP sent successfully"})
     }
     catch(error){
         res.status(400).json({error:error.message})
@@ -97,7 +97,7 @@ const createUser = async (req,res)=>{
             const otpDelete= await OtpModel.deleteMany({
                 email : lastOtp.email
             })
-            const token=createToken(user._id)
+            const token=createToken(user._id,'3d')
             return res.status(201).json({token,message:"Registration Successful"})
         }    
         return res.status(400).json({error:"Invalid OTP"})    

@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import Card from '../../../components/products/collection/ProductsCard';
+import Card from '../components/products/collection/ProductsCard';
 import axios from 'axios';
 import Filter from '../../../components/products/collection/Filter/';
-import Search from '../../../components/products/collection/Search';
-import Type from '../../../components/products/collection/Type';
+import Search from '../components/products/collection/Search';
+import Type from '../components/products/collection/Type';
 const Product = () => {
   const [products, setProducts] = useState([]);
 
