@@ -6,8 +6,6 @@ import toast from 'react-hot-toast';
 export const login = createAsyncThunk(
   'auth/login',
   async (values, { rejectWithValue }) => {
-    toast.dismiss()
-    toast.loading('verifying...');
     try {
       const data = { email: values.email, password: values.password };
       const response = await axios.post("http://localhost:3001/auth/login",data);
@@ -21,8 +19,6 @@ export const login = createAsyncThunk(
 export const reqResetPassword = createAsyncThunk(
   'auth/reqResetPassword',
   async (values, { rejectWithValue }) => {
-    toast.dismiss()
-    toast.loading('loading...');
     try {
       const data = { email: values.email };
       const response = await axios.post("http://localhost:3001/auth/request-reset-password",data);
@@ -36,8 +32,6 @@ export const reqResetPassword = createAsyncThunk(
 export const resetPassword = createAsyncThunk(
   'auth/resetPassword',
   async (values, { rejectWithValue }) => {
-    toast.dismiss()
-    toast.loading('loading...');
     try {
       const data = { resetToken: values.resetToken,newPassword:values.newPassword };
       console.log(data)
@@ -53,22 +47,38 @@ export const resetPassword = createAsyncThunk(
 
 export const authSlice = createSlice({
   name: 'auth',
-  initialState:{ user:null },
+  initialState:{ user:null,token:null },
   reducers: {
-
+    setCredentials:(state,action)=>{
+      const {user,accessToken} =action.payload
+      state.user =user;
+      state.token=accessToken;
+    },
+    logOut:(state,action)=>{
+      state.user=null
+      state.token=null
+    }
   },
   extraReducers: (builder) => {
     builder
+      .addCase(login.pending, () => {
+        toast.dismiss()
+        toast.loading('verifying...');
+      })
       .addCase(login.fulfilled, (state, action) => {
         toast.dismiss()
         const user = { email: action.payload.email, token: action.payload.token };
         localStorage.setItem('user', JSON.stringify(user));
-        state.user=action.payload.userDetails;
+        state.user=action.payload.user;
         toast.success(action.payload.message);
       })
       .addCase(login.rejected, (state, action) => {
         toast.dismiss()
         toast.error(action.payload);
+      })
+      .addCase(reqResetPassword.pending, () => {
+        toast.dismiss()
+        toast.loading('loading...');
       })
       .addCase(reqResetPassword.fulfilled, (state, action) => {
         toast.dismiss()
@@ -77,6 +87,10 @@ export const authSlice = createSlice({
       .addCase(reqResetPassword.rejected, (state, action) => {
         toast.dismiss()
         toast.error(action.payload);
+      })
+      .addCase(resetPassword.pending, () => {
+        toast.dismiss()
+        toast.loading('loading...');
       })
       .addCase(resetPassword.fulfilled, (state, action) => {
         toast.dismiss()
@@ -88,6 +102,13 @@ export const authSlice = createSlice({
       })
   }
 });
+
+export const {setCredentials,logOut} =authSlice.actions
+
+export default authSlice.reducer
+
+export const selectCurrentUser=(state)=>state.auth.user;
+export const selectCurrentToken=(state)=>state.auth.token;
 
 
 

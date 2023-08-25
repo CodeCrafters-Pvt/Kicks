@@ -38,7 +38,7 @@ const login = async (req,res)=>{
             isPremium,
             isActive
           }; 
-        res.status(200).json({userDetails,email,token,message:"Login Successful"})
+        res.status(200).json({user:userDetails,email,token,message:"Login Successful"})
     }
     catch(error){
         res.status(400).json({error:error.message})

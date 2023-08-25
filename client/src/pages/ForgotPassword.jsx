@@ -1,10 +1,9 @@
 import { useState } from "react";
-import AuthLayout from "../../components/layout/AuthLayout"
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-import {Input,Button} from "../../components"
+import {Input,Button} from "../components"
 import { useDispatch } from 'react-redux';
-import { reqResetPassword } from '../../reducers';
+import { reqResetPassword } from '../reducers';
 
 export default function ForgotPassword() {
     const dispatch = useDispatch();
@@ -37,7 +36,7 @@ export default function ForgotPassword() {
 
 
   return (
-    <AuthLayout>
+    <>
         <h5 className='font-heading text-4xl mt-[20vh] '>Reset Password</h5>
         <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleRequestReset}>
             {({errors})=>(
@@ -66,6 +65,6 @@ export default function ForgotPassword() {
             )}
         </Formik>
         
-    </AuthLayout>
+    </>
   )
 }

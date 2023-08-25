@@ -1,11 +1,10 @@
 import { useState } from "react";
 import { useParams,useNavigate } from 'react-router-dom';
-import AuthLayout from "../../components/layout/AuthLayout"
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-import {Input,Button} from "../../components"
+import {Input,Button} from "../components"
 import { useDispatch } from 'react-redux';
-import { resetPassword } from '../../reducers';
+import { resetPassword } from '../reducers';
 
 export default function ResetPassword() {
     let { token } = useParams();
@@ -44,7 +43,7 @@ export default function ResetPassword() {
       };
 
   return (
-    <AuthLayout>
+    <>
         <h5 className='font-heading text-4xl mt-[15vh] '>Reset Password</h5>
         <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleResetPassword}>
             {({errors})=>(
@@ -83,6 +82,6 @@ export default function ResetPassword() {
             )}
         </Formik>
         
-    </AuthLayout>
+    </>
   )
 }

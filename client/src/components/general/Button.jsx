@@ -21,7 +21,8 @@ export default function Button({
         onMouseUp={onMouseUp}
         className={`
         outline outline-1 p-2   rounded-[0.3rem] hover:brightness-125 text-light
-        ${(!variant || variant==="plain" ) && 'bg-light text-dark'}
+        ${(!variant || variant==="plain" || (variant!=="dark" && variant!=="positive" && variant!=="danger") ) &&
+         'bg-light text-dark'}
         ${variant==="dark" && 'bg-dark'}
         ${variant==="positive" && 'bg-green-500 outline-green-500'}
         ${variant==="danger" && 'bg-red-500 outline-red-500'}

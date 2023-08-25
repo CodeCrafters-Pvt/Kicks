@@ -7,8 +7,6 @@ const token=JSON.parse(localStorage.getItem('user'))?.token;
 export const requestOtp = createAsyncThunk(
   'user/requestOtp',
   async (values, { rejectWithValue }) => {
-    toast.dismiss()
-    toast.loading('Loading...');
     try {
       const data = { email: values.email, userName: values.userAccount.username };
       const response = await axios.post("http://localhost:3001/users/signup/verify", data,
@@ -17,7 +15,7 @@ export const requestOtp = createAsyncThunk(
           'Authorization' : `Bearer ${token}`
         }
       });
-      return response.data.message;
+      return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data.error);
     }
@@ -27,11 +25,8 @@ export const requestOtp = createAsyncThunk(
 export const registerUser = createAsyncThunk(
   'user/registerUser',
   async (reqData, { rejectWithValue }) => {
-    toast.dismiss()
-    toast.loading('Loading...');
     try {
       const response = await axios.post("http://localhost:3001/users/signup", reqData);
-      console.log(response.data)
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data.error);
@@ -48,13 +43,21 @@ export const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(requestOtp.pending, () => {
+        toast.dismiss()
+        toast.loading('Loading...');
+      })
       .addCase(requestOtp.fulfilled, (state, action) => {
         toast.dismiss()
-        toast.success(action.payload);
+        toast.success(action.payload.message);
       })
       .addCase(requestOtp.rejected, (state, action) => {
         toast.dismiss()
         toast.error(action.payload);
+      })
+      .addCase(registerUser.pending, () => {
+        toast.dismiss()
+        toast.loading('Loading...');
       })
       .addCase(registerUser.fulfilled, (state, action) => {
         toast.dismiss()

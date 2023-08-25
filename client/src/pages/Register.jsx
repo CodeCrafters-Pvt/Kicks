@@ -3,9 +3,9 @@ import { Formik, Form, Field } from 'formik';;
 import * as Yup from 'yup';
 import {Link,useNavigate } from 'react-router-dom';
 import OtpInput from 'react-otp-input';
-import { Input,Button,AuthLayout } from '../../components';
+import { Input,Button } from '../components';
 import { useDispatch } from 'react-redux';
-import { requestOtp,registerUser} from '../../reducers';
+import { requestOtp,registerUser} from '../reducers';
 
 
 
@@ -92,7 +92,7 @@ export default function Register() {
     })
   }
   return (
-    <AuthLayout>
+    <>
       <h5 className='font-heading text-4xl mt-10'>Create An Account</h5>
       <Formik initialValues={initialValues} onSubmit={handleRegister} validationSchema={validationSchema}>
           {({values,errors,isValid,dirty,validateForm}) => (
@@ -150,6 +150,6 @@ export default function Register() {
             </Form> 
           )}
       </Formik> 
-    </AuthLayout>
+    </>
   )
 }
