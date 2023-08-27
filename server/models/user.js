@@ -36,6 +36,11 @@ const UserSchema=new Schema({
           required: false,
         },
       },
+    role: {
+        type: String,
+        default: "2001",
+        required:true,
+    },
     isPremium: {
         type: Boolean,
         default: false,
@@ -43,6 +48,11 @@ const UserSchema=new Schema({
     isActive: {
         type: Boolean,
         default: true,
+    },
+    resetToken: {
+        type: String,
+        default: null,
+        required: false,
     },
     deactivationDate: {
         type: Date,

@@ -3,9 +3,9 @@ import { Formik, Form, Field } from 'formik';;
 import * as Yup from 'yup';
 import {Link,useNavigate } from 'react-router-dom';
 import OtpInput from 'react-otp-input';
-import { Input,Button,AuthLayout } from '../../components';
+import { Input,Button } from '../components';
 import { useDispatch } from 'react-redux';
-import { requestOtp,registerUser} from '../../reducers';
+import { requestOtp,registerUser} from '../reducers';
 
 
 
@@ -57,30 +57,42 @@ export default function Register() {
   };
 
   const resendOtp = async (values)=>{
+    setIsLoading(true)
     const data={
       email:values.email,
       userAccount:{
         username:values.userAccount.username
       }};
     dispatch(requestOtp(data))
+    .unwrap()
+    .then(() => {
+      setIsLoading(false)
+    })
+    .catch((error) => {
+      console.log(error);
+      setIsLoading(false)
+    });
   }
 
   const handleRegister=(values)=>{
+    setIsLoading(true)
     const {confirmPassword ,...userData} =values
     const data = {...userData, otp:otp}
     dispatch(registerUser(data))
     .unwrap()
     .then(() =>{
+      setIsLoading(false)
       setTimeout(() => {
-        navigate('/signin');
+        navigate('/login');
       }, 1500);
     })
     .catch((error)=>{
       console.log(error)
+      setIsLoading(false)
     })
   }
   return (
-    <AuthLayout>
+    <>
       <h5 className='font-heading text-4xl mt-10'>Create An Account</h5>
       <Formik initialValues={initialValues} onSubmit={handleRegister} validationSchema={validationSchema}>
           {({values,errors,isValid,dirty,validateForm}) => (
@@ -96,7 +108,8 @@ export default function Register() {
               <Field name="confirmPassword" type="password" label="Confirm Password" component={Input} placeholder="Password" 
               isBtnClicked={isClicked} errorId="confirmPass"  errorMsg={errors?.confirmPassword}/>
               <small className='ml-2 mt-1'>Already have an account? <Link to="/" className='text-primary'>Sign-In</Link></small>
-                <Button text="Register" type="button" className='m-1 mt-3 w-full' disabled={isLoading}
+                <Button text="Register" type="button" variant="dark"
+                className='m-1 mt-3 w-full' disabled={isLoading}
                   onClick={() => 
                   { 
                     validateForm()
@@ -123,11 +136,13 @@ export default function Register() {
                 />
               </div>
               <div className='flex gap-2 my-5'>
-              <Button text="Confirm"  className="w-1/2"/>
-              <Button text="Back" className="w-1/2 text-primary bg-light" onClick={()=>{setIsConfirmed(false)}}/>
+              <Button text="Confirm" variant="dark" className="w-1/2" />
+              <Button text="Back" variant="plain"
+              className="w-1/2" 
+              onClick={()=>{setIsConfirmed(false)}} disabled={isLoading}/>
               </div>
               <p>Didn&apos;t receive OTP?&nbsp;
-              <span className='text-primary underline cursor-pointer' onClick={()=>{resendOtp(initialValues)}}>
+              <span className='text-primary underline cursor-pointer' onClick={()=>{resendOtp(initialValues)}} disabled={isLoading}>
                 Resend
               </span>
               </p>
@@ -135,6 +150,6 @@ export default function Register() {
             </Form> 
           )}
       </Formik> 
-    </AuthLayout>
+    </>
   )
 }
