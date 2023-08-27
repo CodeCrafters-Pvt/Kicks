@@ -4,7 +4,7 @@ import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import {Input,Button} from "../components"
 import { useDispatch } from 'react-redux';
-import { resetPassword } from '../reducers';
+import { resetPassword } from '../redux/slices';
 
 export default function ResetPassword() {
     let { token } = useParams();

@@ -1,14 +1,21 @@
-import axios from 'axios'
-import { useState,useEffect } from 'react'
-import { useSelector } from 'react-redux';
+import { useGetUsersQuery } from "../redux/slices/userSlice";
 
 export default function Profile() {
-    const user = useSelector(state => state.auth.user);
-    console.log(user)
-    
-  return (
-    <>
-        hi
-    </>
-  )
+    const {isLoading,isError,error,data} =useGetUsersQuery()
+    console.log(data)
+    return (
+        <>
+            {isLoading ? (
+                <div>Loading...</div>
+            ) : isError ? (
+                <div>Error: {error.message}</div>
+            ) : (
+                <div>
+                    {data.map((user) => (
+                        <div key={user.id}>{user.name}</div>
+                    ))}
+                </div>
+            )}
+        </>
+    );
 }

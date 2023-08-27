@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Input, Button } from "../components";
 import { useDispatch } from "react-redux";
-import { login} from "../reducers";
+import { login} from "../redux/slices";
 
 export default function Login() {
   const dispatch = useDispatch();

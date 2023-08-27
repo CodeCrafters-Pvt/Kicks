@@ -3,7 +3,7 @@ import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import {Input,Button} from "../components"
 import { useDispatch } from 'react-redux';
-import { reqResetPassword } from '../reducers';
+import { reqResetPassword } from '../redux/slices';
 
 export default function ForgotPassword() {
     const dispatch = useDispatch();

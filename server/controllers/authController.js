@@ -28,10 +28,11 @@ const login = async (req,res)=>{
 
         const token=createToken(account._id,'3d');
 
-        const { userAccount, _id , isPremium , isActive } = account;
+        const { userAccount, _id ,role, isPremium , isActive } = account;
         const {  username,profilepic } = userAccount;
         const userDetails = {
             _id,
+            role,
             email,
             username,
             profilepic,

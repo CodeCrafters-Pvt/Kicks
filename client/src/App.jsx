@@ -1,9 +1,11 @@
-import {createBrowserRouter,createRoutesFromElements,Route,RouterProvider} from "react-router-dom";
-import {Provider} from 'react-redux'
-import { store } from "./store";
-import {RegisterUser,Login,ResetPassword,ForgotPassword,Profile} from "./pages";
-import {RequireAuth} from "./components"
-import {RootLayout,AuthLayout} from "./layouts"
+import { createBrowserRouter,createRoutesFromElements,Route,RouterProvider } from "react-router-dom";
+import { Provider } from 'react-redux'
+import { ApiProvider } from "@reduxjs/toolkit/dist/query/react";
+import { apiSlice } from "./redux/api/apiSlice";
+import { store } from "./redux/store";
+import { RegisterUser,Login,ResetPassword,ForgotPassword,Profile } from "./pages";
+import { RequireAuth } from "./components"
+import { RootLayout,AuthLayout } from "./layouts"
 
 function App() {
 
@@ -16,7 +18,7 @@ function App() {
             <Route path="/reset-password" element={<ForgotPassword/>}/>
             <Route path="/reset-password/:token" element={<ResetPassword/>}/>
         </Route>
-        <Route element={<RequireAuth/>}>
+        <Route>
           <Route path="/profile"  element={<Profile />} />
         </Route>    
         <Route path="*" element={<>Missing</>} />     
@@ -24,9 +26,11 @@ function App() {
     ))
   
   return(
+    <ApiProvider api={apiSlice}>
     <Provider store={store}>
-      <RouterProvider router={router}/>
+        <RouterProvider router={router}/>
     </Provider>
+    </ApiProvider> 
   )
 }
 
