@@ -57,6 +57,11 @@ const ProductSchema = new Schema(
       type: String,
       required: false,
     },
+
+    productCollection: {
+      type: String,
+      required: false,
+    },
    
     images: [{ type: String, required: false }], // Add an array of image filenames
   },
