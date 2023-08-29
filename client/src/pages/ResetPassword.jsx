@@ -4,7 +4,7 @@ import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import {Input,Button} from "../components"
 import { useDispatch } from 'react-redux';
-import { resetPassword } from '../reducers';
+// import { resetPassword } from '../redux/slices';
 
 export default function ResetPassword() {
     let { token } = useParams();
@@ -29,17 +29,17 @@ export default function ResetPassword() {
 
     const handleResetPassword = (values) => {
         setIsLoading(true)
-        const data={resetToken:token,newPassword:values.password}
-        dispatch(resetPassword(data))
-        .unwrap()
-        .then(() => {
-            navigate('/login')
-            setIsLoading(false)
-          })
-        .catch((error) => {
-            console.log(error)
-            setIsLoading(false)
-          });
+        // const data={resetToken:token,newPassword:values.password}
+        // dispatch(resetPassword(data))
+        // .unwrap()
+        // .then(() => {
+        //     navigate('/login')
+        //     setIsLoading(false)
+        //   })
+        // .catch((error) => {
+        //     console.log(error)
+        //     setIsLoading(false)
+        //   });
       };
 
   return (
