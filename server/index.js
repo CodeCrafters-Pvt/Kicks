@@ -3,8 +3,14 @@ const express=require('express');
 const app=express();
 const mongoose=require('mongoose')
 const cronJob = require("./schedulers/removeUsers")
+
 const cors=require('cors')
-app.use(cors())
+const corsOptions ={
+    origin:'http://localhost:3000', 
+    credentials:true,
+    optionSuccessStatus:200,
+ } 
+ app.use(cors(corsOptions)) 
 
 //middleWear
 app.use(express.json());

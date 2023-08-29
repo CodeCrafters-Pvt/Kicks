@@ -1,4 +1,4 @@
-import { useGetUsersQuery } from "../redux/slices/userSlice";
+import { useGetUsersQuery } from "../redux/api/usersApiSlice";
 
 export default function Profile() {
     const {isLoading,isError,error,data} =useGetUsersQuery()

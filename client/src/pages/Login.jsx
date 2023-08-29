@@ -2,31 +2,36 @@ import { useState } from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { Input, Button } from "../components";
+import { Input, Button, showToast } from "../components";
 import { useDispatch } from "react-redux";
-import { login} from "../redux/slices";
+import { useLoginMutation } from "../redux/api/authApiSlice";
+import { setCredentials } from "../redux/slices/authSlice";
 
 export default function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
+  const [login] = useLoginMutation();
 
   const [isClicked, setIsClicked] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleLogin = (values) => {
+  const handleLogin = async (values) => {
     setIsLoading(true);
-    dispatch(login(values))
-      .unwrap()
-      .then(() => {
+    await showToast(
+      login(values),
+      (response) => {
         setIsLoading(false);
         navigate(from, { replace: true });
-      })
-      .catch((error) => {
+        dispatch(
+          setCredentials({ user: response.user, token: response.token })
+        );
+      },
+      () => {
         setIsLoading(false);
-        console.log(error);
-      });
+      },
+    );
   };
 
   const initialValues = {

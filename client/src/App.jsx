@@ -1,7 +1,5 @@
 import { createBrowserRouter,createRoutesFromElements,Route,RouterProvider } from "react-router-dom";
 import { Provider } from 'react-redux'
-import { ApiProvider } from "@reduxjs/toolkit/dist/query/react";
-import { apiSlice } from "./redux/api/apiSlice";
 import { store } from "./redux/store";
 import { RegisterUser,Login,ResetPassword,ForgotPassword,Profile } from "./pages";
 import { RequireAuth } from "./components"
@@ -26,11 +24,9 @@ function App() {
     ))
   
   return(
-    <ApiProvider api={apiSlice}>
     <Provider store={store}>
         <RouterProvider router={router}/>
     </Provider>
-    </ApiProvider> 
   )
 }
 

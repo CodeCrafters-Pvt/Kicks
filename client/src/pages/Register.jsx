@@ -7,7 +7,7 @@ import { Input, Button,showToast } from "../components";
 import {
   useRequestOtpMutation,
   useRegisterUserMutation,
-} from "../redux/slices/userSlice";
+} from "../redux/api/usersApiSlice";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -91,6 +91,7 @@ export default function Register() {
       "Registering"
     )
   };
+  
   return (
     <>
       <h5 className="font-heading text-4xl mt-10">Create An Account</h5>

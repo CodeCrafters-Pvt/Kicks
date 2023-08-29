@@ -1,5 +1,5 @@
 // import { userSlice} from "./userSlice";
-import {authSlice,login,setCredentials,logOut,reqResetPassword,resetPassword} from "./authSlice"
+import {} from "./authSlice"
 
 
-export { authSlice,login,setCredentials,logOut,reqResetPassword,resetPassword }
+export { }

@@ -1,6 +1,6 @@
 import toast from 'react-hot-toast';
 
-export const showToast = async (promise,onSuccess,onError,loadingMessage="Loading") => {
+export const showToast = async (promise,onSuccess=null,onError=null,loadingMessage="Loading") => {
     try {
       toast.dismiss()
       toast.loading(loadingMessage)
@@ -9,15 +9,16 @@ export const showToast = async (promise,onSuccess,onError,loadingMessage="Loadin
       .then((response)=>{
         toast.dismiss()
         toast.success(response.message)
-        onSuccess()
+        if (onSuccess) onSuccess(response)
+        return response
       })
       .catch((error) => {
         toast.dismiss()
         toast.error(error.data.error)
-        onError()
+        if(onError) onError(error)
       })
     } catch (error) {
       console.log("error",error)
-      onError()
+      if(onError) onError()
     }
   };
