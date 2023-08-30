@@ -1,64 +1,38 @@
-import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setError, addImages, removeImage } from "../../../redux/slices/imageUploaderSlice"
 import { FaTimes, FaCloudUploadAlt } from 'react-icons/fa';
-import { ref, uploadBytes } from 'firebase/storage';
-import { storage } from '../../../../src/firebase-config';
 import PropTypes from "prop-types"; 
-const ImageUploader = ({ productID, productName }) => {
-  const [images, setImages] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
 
 
-  // Uploads images to Firebase storage
- 
-  const uploadImages = async () => {
-    try {
-      setLoading(true);
+const ImageUploader = ({setSelectedFiles}) => {
+  const dispatch = useDispatch();
+  const { images, loading, error } = useSelector((state) => state.imageUploader);
 
-      for (let i = 0; i < images.length; i++) {
-        const image = images[i];
-        const newImageName = `image ${i + 1}.jpg`;
 
-        const productFolderRef = ref(storage, `Kicks/${productID}-${productName}`);
-        const imageRef = ref(productFolderRef, newImageName);
-        await uploadBytes(imageRef, image);
-        console.log(`Image ${i + 1} uploaded successfully`);
-      }
-
-      setError(null);
-    } catch (error) {
-      console.error('Error uploading images:', error);
-      setError(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleImageUpload = (event) => {
+  const handleSelect = (event) => {
     const newImages = Array.from(event.target.files);
-    setImages([...images, ...newImages]);
+    const newImageUrls = newImages.map((image) => URL.createObjectURL(image));
+    dispatch(addImages(newImageUrls))
+    setSelectedFiles(newImages)
   };
 
    // Removes an image from the array based on its index
-  const removeImage = (index) => {
-    const updatedImages = images.filter((_, i) => i !== index);
-    setImages(updatedImages);
+  const handleRemove = (index) => {
+      dispatch(removeImage(index))
   };
 
   // Handles the "drop" event for drag-and-drop functionality
   const handleDrop = (event) => {
     event.preventDefault();
     event.stopPropagation();
-
     if (event.dataTransfer.files.length > 0) {
       const newImages = Array.from(event.dataTransfer.files);
-      setImages([...images, ...newImages]);
+      const newImageUrls = newImages.map((image) => URL.createObjectURL(image));
+      dispatch(addImages(newImageUrls));
+      setSelectedFiles(newImages)
     }
   };
  
-  const clearImages = () => {
-    setImages([]); // Clear the images state
-  };
 
   return (
     
@@ -76,13 +50,14 @@ const ImageUploader = ({ productID, productName }) => {
               style={{ backgroundColor: 'white' }}
             >
             <img
-              src={URL.createObjectURL(image)}
+              src={image}
               alt={`Uploaded Image ${index}`}
               className="w-32 h-32 object-cover rounded-md"
             />
             </div>
             <button
-              onClick={() => removeImage(index)}
+            type="button"
+              onClick={() => handleRemove(index)}
               className="absolute top-2 right-2 p-1 rounded-full"
       style={{ backgroundColor: 'black' }} 
             >
@@ -106,7 +81,7 @@ const ImageUploader = ({ productID, productName }) => {
               type="file"
               multiple
               accept="image/*"
-              onChange={handleImageUpload}
+              onChange={handleSelect}
               className="hidden"
             />
           </span>
@@ -115,22 +90,6 @@ const ImageUploader = ({ productID, productName }) => {
       <p className="mt-4 text-gray-500 text-sm">
         You can also drag and drop images here.
       </p>
-      <div className="flex justify-between mt-4">
-        <button
-          type="button"
-          onClick={uploadImages}
-          className="bg-blue-500 text-white px-4 py-2 rounded-md shadow"
-        >
-          Upload
-        </button>
-        <button
-          type="button"
-          onClick={clearImages}
-          className="bg-red-500 text-white px-4 py-2 rounded-md shadow"
-        >
-          Clear
-        </button>
-      </div>
     </div>
   
   );
@@ -140,9 +99,7 @@ const ImageUploader = ({ productID, productName }) => {
 
 
 ImageUploader.propTypes = {
-    productID: PropTypes.string.isRequired,
-    productName: PropTypes.string.isRequired,
-    onImageChange: PropTypes.func.isRequired,
+  setSelectedFiles: PropTypes.func.isRequired,
   };
 
 

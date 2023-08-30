@@ -1,5 +1,3 @@
-import React from 'react';
-
 const Type = () => {
   return (
     <div className='flex ml-20 my-0'>

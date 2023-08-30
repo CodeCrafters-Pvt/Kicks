@@ -1,31 +1,33 @@
-import { createBrowserRouter,createRoutesFromElements,Route,RouterProvider } from "react-router-dom";
+import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from "react-router-dom";
 import { Provider } from 'react-redux'
 import { store } from "./redux/store";
-import { RegisterUser,Login,ResetPassword,ForgotPassword,Profile } from "./pages";
+import { RegisterUser, Login, ResetPassword, ForgotPassword, Profile, NewProduct, Product } from "./pages";
 import { RequireAuth } from "./components"
-import { RootLayout,AuthLayout } from "./layouts"
+import { RootLayout, AuthLayout } from "./layouts"
 
 function App() {
 
-  const router=createBrowserRouter(
-    createRoutesFromElements( 
-      <Route path="/" element={<RootLayout/>}>
-        <Route  element={<AuthLayout/>}>
-            <Route path="/register" element={<RegisterUser/>}/>
-            <Route path="/login" element={<Login/>}/>
-            <Route path="/reset-password" element={<ForgotPassword/>}/>
-            <Route path="/reset-password/:token" element={<ResetPassword/>}/>
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <Route path="/" element={<RootLayout />}>
+        <Route element={<AuthLayout />}>
+          <Route path="/register" element={<RegisterUser />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/reset-password" element={<ForgotPassword />} />
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
         </Route>
+          <Route path="/new-product" element={<NewProduct />} />
+          <Route path="/products" element={<Product />} />
         <Route>
-          <Route path="/profile"  element={<Profile />} />
-        </Route>    
-        <Route path="*" element={<>Missing</>} />     
+          <Route path="/profile" element={<Profile />} />
+        </Route>
+        <Route path="*" element={<>Missing</>} />
       </Route>
     ))
-  
-  return(
+
+  return (
     <Provider store={store}>
-        <RouterProvider router={router}/>
+      <RouterProvider router={router} />
     </Provider>
   )
 }

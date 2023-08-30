@@ -1,115 +1,240 @@
 import { useState } from 'react';
-import { Formik, Form, Field} from 'formik';
-import axios from 'axios'
-import {Input} from '../../../components';
-
-
+import { useDispatch } from 'react-redux';
+import { uploadImages, clearImages } from "../redux/slices/imageUploaderSlice"
+import { Formik, Form, Field } from 'formik';
+import * as Yup from 'yup';
+import { Input, Button, ImageUploader,showToast } from '../components';
+import { useAddProductMutation } from "../redux/api/productApiSlice"
 
 const NewProduct = () => {
-   const [file,setFile] = useState()
+  const dispatch = useDispatch()
+  const [addProduct] = useAddProductMutation()
+  const [isClicked, setIsClicked] = useState(false);
+  const [selectedFiles, setSelectedFiles] = useState([]);
 
-   const handleUpload = () => {
-    const formdata = new FormData()
-    formdata.append('file', file)
-    axios.post("http://localhost:3001/products/upload", formdata).then(res => console.log(res))
-    .catch(err => console.log(err))
-   }
 
-    const addProduct = (data) =>{
-        console.log(data)
-        axios.post("http://localhost:3001/products",data).then((res)=>{
-          console.log(res.data);
-        }).catch((err)=>{
+
+  const handleAddProduct = (data,_onSubmitProps_) => {
+    showToast(
+      addProduct(data),
+      ()=>{
+        if(selectedFiles.length>0){
+          const folderName=`${data.productID} - ${data.productName}`
+        dispatch( uploadImages({ images: selectedFiles,folderName }))
+        .unwrap()
+        .then(()=>{
+          dispatch(clearImages())
+          setIsClicked(false)
+          _onSubmitProps_.resetForm()
+        })
+        .catch((err)=>{
           console.log(err)
         })
-      }
+        }
+        else{
+          setIsClicked(false)
+          _onSubmitProps_.resetForm()
+        }
+      },
+      (err)=>{console.log(err)}
+    )}
 
 
-      const initialValues = {
-        productID: '',
-        productName: '',
-        brandName:'',
-        regularPrice:'',
-        sellingPrice:'',
-        sizes: {
-          size: '',
-          colors: {
-            color: '',
-          },
-        },
-        productDesc: '',
-        category:'',
-        image: '', // Add image field to the initial values
-      };
-    
-      return (
-      <div className="bg-gray-200  flex items-center justify-center p-8">
+  const initialValues = {
+    productID: '',
+    productName: '',
+    brandName: '',
+    regularPrice: '',
+    sellingPrice: '',
+    sizes: {
+      size: '',
+      colors: {
+        color: '',
+      },
+    },
+    productDesc: '',
+    category: '',
+    productCollection: '',
+  };
+
+  const validationSchema = Yup.object().shape({
+    productID: Yup.string()
+      .required('required'),
+    productName: Yup.string()
+      .required('required'),
+    brandName: Yup.string()
+      .required('required'),
+    regularPrice: Yup.string()
+      .required('required'),
+    sellingPrice: Yup.string()
+      .required('required'),
+    productDesc: Yup.string()
+      .required('required'),
+    category: Yup.string()
+      .required('required'),
+    productCollection: Yup.string()
+      .required('required'),
+    sizes: Yup.object().shape({
+      size: Yup.string().required("Required"),
+      colors: Yup.object().shape({
+        color: Yup.string().required("Required"),
+      })
+    }),
+  });
+
+
+
+
+
+  return (
+    <div className="bg-gray-200 min-h-screen  flex items-center justify-center p-8">
       <div className="bg-white shadow-md p-8 rounded-md ">
         <h1 className="text-2xl font-bold mb-4">Product Details</h1>
-      <Formik initialValues={initialValues} onSubmit={addProduct}>
-        <Form className="w-full w-100%  flex flex-col">
-          <div className="flex items-center justify-between mb-4">
-            {/* Left side (fields) */}
-            <div className="flex flex-col">
-              <Field name="productID" label="Product ID" component={Input} 
-              type="color" options={["black","blue","red","yellow","green","purple","orange"]}
-              colorSize={30} paletteWidth="12vw" errorMsg="hi"
-              />
-              <Field name="productName" label="Product Name" component={Input} />
-              {/* <Field
-                name="productCollection"
-                type="select"
-                label="Product Collection"
-                component={Input}
-              /> */}
-              {/* <Field name="category" type="select" label="Category" component={Input} /> */}
-              {/* <Field name="brandName" type="select" label="Brand Name" component={Input} /> */}
+        <Formik initialValues={initialValues} onSubmit={handleAddProduct} validationSchema={validationSchema}>
+          {({ errors, setFieldValue }) => (
+            <Form className="w-full w-100%  flex flex-col">
+              <div className="flex items-center justify-between mb-4">
+                {/* Left side (fields) */}
+                <div className="flex flex-col">
+                  <Field
+                    name="productID"
+                    label="Product ID"
+                    component={Input}
+                    errorId="productID"
+                    isBtnClicked={isClicked}
+                    errorMsg={errors.productID}
+
+                  />
+                  <Field
+                    name="productName"
+                    label="Product Name"
+                    component={Input}
+                    errorId="productName"
+                    isBtnClicked={isClicked}
+                    errorMsg={errors.productName}
+                  />
+                  <Field
+                    name="productCollection"
+                    type="select"
+                    label="Product Collection"
+                    component={Input}
+                    options={[{ label: "men", value: "men" }, { label: "women", value: "women" }, { label: "kids", value: "kids" }, { label: "Unisex", value: "Unisex" }]}
+                    setFieldValue={setFieldValue}
+                    errorId="productCollection"
+                    isBtnClicked={isClicked}
+                    showError
+                    errorMsg={errors.productCollection}
+                  />
+
+                  <Field
+                    name="category"
+                    type="select"
+                    label="Category"
+                    component={Input}
+                    options={[{ label: "Shoe", value: "Shoe" }, { label: "Sneaker", value: "Sneaker" }, { label: "Flip Flops", value: "Flip Flops" }, { label: "Heels", value: "Heels" }]}
+                    setFieldValue={setFieldValue}
+                    errorId="category"
+                    isBtnClicked={isClicked}
+                    showError
+                    errorMsg={errors.category}
+                  />
+
+                  <Field
+                    name="brandName"
+                    type="select"
+                    label="Brand Name"
+                    component={Input}
+                    options={[{ label: "Adidas", value: "Adidas" }, { label: "Nike", value: "Nike" }, { label: "Bata", value: "Bata" }, { label: "DSI", value: "DSI" }]}
+                    setFieldValue={setFieldValue}
+                    errorId="brandName"
+                    isBtnClicked={isClicked}
+                    showError
+                    errorMsg={errors.brandName}
+                  />
+                </div>
+                <div className="flex flex-col mx-4 ">
+                  <Field
+                    name="sizes.size"
+                    type="select"
+                    label="Size"
+                    component={Input}
+                    options={[{ label: "30", value: "30" }]}
+                    setFieldValue={setFieldValue}
+                    errorId="size"
+                    isBtnClicked={isClicked}
+                    showError
+                    errorMsg={errors.sizes?.size}
+                  />
+                  <Field
+                    name="sizes.colors.color"
+                    type="color"
+                    label="Color"
+                    component={Input}
+                    options={["#878B60","#607D8B","#09604B","#4E0960"]}
+                    errorMsg={errors.sizes?.colors?.color}
+                    errorId="color"
+                    isBtnClicked={isClicked}
+                    setFieldValue={setFieldValue}
+                  />
+                  <Field
+                    name="productDesc"
+                    textArea
+                    label="Product Description"
+                    component={Input}
+                    errorId="productDesc"
+                    isBtnClicked={isClicked}
+                    errorMsg={errors.productDesc}
+                  />
+                  <Field
+                    name="regularPrice"
+                    label="Regular Price"
+                    component={Input}
+                    errorId="regularPrice"
+                    isBtnClicked={isClicked}
+                    errorMsg={errors.regularPrice}
+                  />
+                  <Field
+                    name="sellingPrice"
+                    label="Sale Price"
+                    component={Input}
+                    errorId="sellingPrice"
+                    isBtnClicked={isClicked}
+                    errorMsg={errors.sellingPrice}
+                  />
+                </div>
+
+                {/* Right side (image and buttons) */}
+                <div className="flex flex-col items-end  my-4">
+                  <ImageUploader setSelectedFiles={setSelectedFiles} />
+                  <div className="flex gap-4">
+                    <Button
+                      className="bg-green-500 text-white rounded px-4 py-2 my-3"
+                      text='Create'
+                      onClick={() => { setIsClicked(true) }}
+                      onMouseUp={() => setIsClicked(false)}
+                    />
+
+                    <Button
+                      type="reset"
+                      className="bg-red-500 text-white rounded px-4 py-2 my-3"
+                      text="Clear"
+                      onClick={() => dispatch(clearImages())}
+                    />
+
+                  </div>
+                </div>
               </div>
-              <div className="flex flex-col">
-              {/* <Field name="sizes.size" type="select" label="Size" component={Input} /> */}
-              {/* <Field
-                name="sizes.colors.color"
-                type="select"
-                label="Color"
-                component={Input}
-              /> */}
-              <Field name="productDesc" label="Product Description" component={Input} />
-              <Field name="regularPrice" label="Regular Price" component={Input} />
-              <Field name="sellingPrice" label="Sale Price" component={Input} />
-            </div>
+            </Form>
+          )}
 
-            {/* Right side (image and buttons) */}
-            <div className="flex flex-col items-end">
-              <img src={file} alt="Product" className="w-24 h-auto rounded-md mb-4" />
-              <Field
-                name="image"
-                type="file"
-                label="Image"
-                component={Input}
-                onChange={(e) => setFile(e.target.files[0])}
-              />
-              <button
-                type="submit"
-                onClick={handleUpload}
-                className="bg-blue-500 text-white rounded px-4 py-2 mb-2"
-              >
-                Upload Image
-              </button>
-              <button type="submit" className="bg-green-500 text-white rounded px-4 py-2">
-                Create Product
-              </button>
-            </div>
-          </div>
-        </Form>
-      </Formik>
+        </Formik>
+      </div>
     </div>
-    </div>
-   
-      );
-    };
 
-export default NewProduct
+  );
+};
 
+export default NewProduct;
 
 
 
@@ -117,5 +242,6 @@ export default NewProduct
 
 
 
- 
- 
+
+
+

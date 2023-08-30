@@ -1,7 +1,5 @@
-import React from 'react';
 import { useEffect, useState } from 'react';
 import Card from '../../../components/products/collection/ProductsCard';
-import PropTypes from 'prop-types';
 import axios from 'axios';
 const AllProducts = () => {
     const [products, setProducts] = useState([]);
@@ -20,7 +18,7 @@ const AllProducts = () => {
       }, []);
   return (
     <div className='flex-1'> 
-      <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
+      <div className='grid grid-cols-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
         {products.map((product) => (
           <Card
             key={product._id} // Assuming the product object has an "_id" property

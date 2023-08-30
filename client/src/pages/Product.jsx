@@ -1,53 +1,79 @@
 import { useEffect, useState } from 'react';
 import Card from '../components/products/collection/ProductsCard';
-import axios from 'axios';
-import Filter from '../../../components/products/collection/Filter/';
-import Search from '../components/products/collection/Search';
-import Type from '../components/products/collection/Type';
+import { Filter, Search, Type, AllProducts } from "../components"
+import {useGetProductsQuery} from "../redux/api/productApiSlice"
+
 const Product = () => {
-  const [products, setProducts] = useState([]);
+  const {data:products} = useGetProductsQuery();
+ 
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await axios.get('http://localhost:3001/products'); // Replace with your backend API endpoint
-        setProducts(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+  // //--------input filter----------
+  // const [query, setQuery] = useState("")
 
-    fetchProducts();
-  }, []);
+  // const handleInputChange = event => {
+  //   setQuery(event.target.value)
+  // }
+
+  // const filteredItems = products.filter(product => product.productName.toLocaleLowerCase().indexOf(query.toLocaleLowerCase() !== -1)
+  // );
+
+  // //------------radio filter-----------
+  // const handleChange = event => {
+  //   setSelectedCategory(event.target.value);
+  // }
+
+  // //------------button filter-----------
+  // const handleClick = event => {
+  //   setSelectedCategory(event.target.value);
+  // }
+
+  // function filteredData(products, selected, query) {
+  //   let filteredProducts = products
+
+  //   //filtering input items
+  //   if (query) {
+  //     filteredProducts = filteredItems
+  //   }
+
+  //   //selected filter
+
+  //   if (selected) {
+  //     filteredProducts = filteredProducts.filter(
+  //       ({ category, color, brandName, productName }) =>
+  //         category === selected ||
+  //         color === selected ||
+  //         brandName === selected ||
+  //         productName === selected
+  //     )
+  //   }
+
+  //   return filteredProducts.map(({ id, productName }) =>
+  //     <Card
+  //       key={id} // Assuming the product object has an "_id" property
+  //       title={productName}
+
+  //     />
+  //   )
+  // }
+
+  // const result = filteredData(products, selectedCategory, query);
 
   return (
     <>
-      <Search />
+      {/* <Search query={query} handleInputChange={handleInputChange} />
       <div className='flex justify-between items-center p-8'>
         <h1 className='text-2xl pl-12 font-bold mb-4'>All Products</h1>
-        <Type />
-      </div>
+        <Type handleClick={handleClick} />
+      </div> */}
 
       <div className='flex justify-center'>
         {/* Filter container */}
-        <div className='w-1/4 pl-20 p-4 mr-4'>
-          <Filter />
-        </div>
+        {/* <div className='w-1/4 pl-20 p-4 mr-4'>
+          <Filter handleChange={handleChange} />
+        </div> */}
 
         {/* Product cards */}
-        <div className='flex-1'>
-          <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
-            {products.map((product) => (
-              <Card
-                key={product._id} // Assuming the product object has an "_id" property
-                image={product.image}
-                title={product.productName}
-                description={product.productDesc}
-                price={product.productPrice}
-              />
-            ))}
-          </div>
-        </div>
+        <AllProducts result={products} />
       </div>
     </>
   );

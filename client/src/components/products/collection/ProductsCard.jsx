@@ -7,22 +7,13 @@ const ProductsCard = ({ image, productName, productCollection, regularPrice,sell
   return (
     <div className="w-full px-2 mb-4">
       <div className="card bg-white rounded-lg shadow-md p-4 h-full">
-        {/* Image */}
         <img src={image} alt={productName} className="w-full h-auto rounded-md mb-4" />
-
-        {/* Product Name */}
         <h2 className="text-xl font-bold mb-2">{productName}</h2>
-
-        {/* Product Description */}
         <p className="text-gray-500 mb-4">{productCollection}</p>
-
-        {/* Del Price and Actual Price */}
         <div>
           <del className="text-red-500">{regularPrice}</del>
           <h3 className="text-lg font-semibold text-blue-500">{sellingPrice}</h3>
         </div>
-
-        {/* Star Ratings */}
         <section className="flex items-center mb-4">
           <AiFillStar className="text-yellow-500" />
           <AiFillStar className="text-yellow-500" />
@@ -31,7 +22,6 @@ const ProductsCard = ({ image, productName, productCollection, regularPrice,sell
           <span className="ml-2">4</span>
         </section>
 
-        {/* Icons */}
         <div className="flex justify-end">
           <AiOutlineHeart className="mr-2" />
           <AiOutlineShoppingCart />
