@@ -3,7 +3,7 @@ import { Provider } from 'react-redux'
 import { store } from "./redux/store";
 import { RegisterUser,Login,ResetPassword,ForgotPassword,Profile } from "./pages";
 import { RequireAuth } from "./components"
-import { RootLayout,AuthLayout } from "./layouts"
+import { RootLayout,AuthLayout, UserLayout } from "./layouts"
 
 function App() {
 
@@ -16,7 +16,7 @@ function App() {
             <Route path="/reset-password" element={<ForgotPassword/>}/>
             <Route path="/reset-password/:token" element={<ResetPassword/>}/>
         </Route>
-        <Route>
+        <Route element={<UserLayout/>}>
           <Route path="/profile"  element={<Profile />} />
         </Route>    
         <Route path="*" element={<>Missing</>} />     
