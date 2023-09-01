@@ -10,7 +10,8 @@ export default {
         mont: ['var(--font-mont)'],
         mono: ['var(--font-roboto-mono)'],
         general: ['"Inter"', 'sans-serif'],
-        heading:['"Raleway"','sans-serif']
+        heading:['"Raleway"','sans-serif'],
+        nunito: ['Nunito', 'sans-serif'],
       },
       colors:{
         dark: "#1b1b1b",

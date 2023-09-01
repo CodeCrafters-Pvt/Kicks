@@ -30,14 +30,10 @@ const Cart = () => {
       <>  
         <div className="container flex bg-gray-200 justify-center text-textNormal">
           <div className="w-3/4 py-4">
-            <Link to="/">
-              <div className="flex items-center font-extrabold text-lg ">
-                <div className="text-xl">
-                  <BiChevronLeft />
-                </div>
-                <div>
-                  Shopping Continue
-                </div>
+            <Link to="/" className="inline-block">
+              <div className="flex items-center font-extrabold text-lg">
+                <BiChevronLeft className="text-xl"/>
+                <span> Shopping Continue </span>
               </div>
             </Link>
             {/* Horizontal line */}
@@ -54,10 +50,10 @@ const Cart = () => {
             <small className="text-xs font-extralight">
                 You have {cartProducts.length} item in your cart
             </small>
-            <div>
-              <div className="my-2 w-1/2 block">
+            <div className="grid grid-flow-col grid-cols-12 gap-x-3 ">
+              <div className="my-2 col-span-6">
                 {/* Block of list */}
-                <div>
+                <div className="grid grid-flow-row gap-y-3">
                   {/* list */}
                   {
                     cartProducts.map((cartProduct) => 
@@ -71,7 +67,7 @@ const Cart = () => {
                   }
                 </div>
               </div>
-              <div>
+              <div className="flex col-start-8 col-end-12 h-90 bg-slate-800 rounded-2xl">
                 {/* order summary */}
               </div>
             </div>
