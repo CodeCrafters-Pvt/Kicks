@@ -5,11 +5,14 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
 const createToken = (_id, expiry) => {
-  return jwt.sign({ _id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: expiry });
+  return jwt.sign({ _id }, process.env.ACCESS_TOKEN_SECRET, {
+    expiresIn: expiry,
+  });
 };
 
 const login = async (req, res) => {
   try {
+    const cookies = req.cookies;
     const { email, password } = req.body;
     if (!email || !password)
       return res.status(400).json({ error: "Missing Credentials" });
@@ -31,7 +34,7 @@ const login = async (req, res) => {
     const accessToken = jwt.sign(
       {
         UserInfo: {
-          id: account._id,
+          username: account.userAccount.username,
           role: account.role,
         },
       },
@@ -40,10 +43,38 @@ const login = async (req, res) => {
     );
 
     const newRefreshToken = jwt.sign(
-      { username: account.username },
+      { username: account.userAccount.username },
       process.env.REFRESH_TOKEN_SECRET,
       { expiresIn: "15s" }
     );
+
+    let newRefreshTokenArray = !cookies?.jwt
+      ? account.refreshToken
+      : account.refreshToken.filter((rt) => rt !== cookies.jwt);
+
+    if (cookies?.jwt) {
+      const refreshToken = cookies.jwt;
+      const foundToken = await userModel.findOne({ refreshToken }).exec();
+
+      if (!foundToken) {
+        newRefreshTokenArray = [];
+      }
+      res.clearCookie("jwt", {
+        httpOnly: true,
+        sameSite: "None",
+        secure: true,
+      });
+    }
+
+    account.refreshToken = [...newRefreshTokenArray, newRefreshToken];
+    const result = await account.save();
+
+    res.cookie("jwt", newRefreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "None",
+      maxAge: 24 * 60 * 60 * 1000,
+    });
 
     const { userAccount, _id, role, isPremium, isActive } = account;
     const { username, profilepic } = userAccount;
@@ -56,12 +87,35 @@ const login = async (req, res) => {
       isPremium,
       isActive,
     };
-    res
-      .status(200)
-      .json({ user: userDetails, email, token, message: "Login Successful" });
+    res.status(200).json({
+      user: userDetails,
+      email,
+      token: accessToken,
+      message: "Login Successful",
+    });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
+};
+
+const logout = async (req, res) => {
+  const cookies = req.cookies;
+  if (!cookies?.jwt) return res.sendStatus(204);
+  const refreshToken = cookies.jwt;
+
+  const user = await userModel.findOne({ refreshToken }).exec();
+  if (!user) {
+    res.clearCookie("jwt", { httpOnly: true, sameSite: "None", secure: true });
+    return res.sendStatus(204);
+  }
+
+  // Delete refreshToken in db
+  user.refreshToken = user.refreshToken.filter((rt) => rt !== refreshToken);
+  const result = await user.save();
+  console.log(result);
+
+  res.clearCookie("jwt", { httpOnly: true, sameSite: "None", secure: true });
+  res.sendStatus(204);
 };
 
 const requestResetPassword = async (req, res) => {
@@ -109,4 +163,10 @@ const resetPassword = async (req, res) => {
   }
 };
 
-module.exports = { createToken, login, requestResetPassword, resetPassword };
+module.exports = {
+  createToken,
+  login,
+  requestResetPassword,
+  resetPassword,
+  logout,
+};

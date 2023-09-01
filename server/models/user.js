@@ -49,7 +49,7 @@ const UserSchema=new Schema({
         type: Boolean,
         default: true,
     },
-    refreshTOken:{
+    refreshToken:{
         type:[String]
     },
     resetToken: {
