@@ -3,7 +3,7 @@ import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import {Input,Button} from "../components"
 import { useDispatch } from 'react-redux';
-import { reqResetPassword } from '../reducers';
+// import { reqResetPassword } from '../redux/slices';
 
 export default function ForgotPassword() {
     const dispatch = useDispatch();
@@ -21,16 +21,16 @@ export default function ForgotPassword() {
 
     const handleRequestReset = (values) => {
         setIsLoading(true)
-        dispatch(reqResetPassword(values))
-        .unwrap()
-        .then(() => {
-            setIsRequested(true)
-            setIsLoading(false)
-          })
-        .catch((error) => {
-            console.log(error)
-            setIsLoading(false)
-          });
+        // dispatch(reqResetPassword(values))
+        // .unwrap()
+        // .then(() => {
+        //     setIsRequested(true)
+        //     setIsLoading(false)
+        //   })
+        // .catch((error) => {
+        //     console.log(error)
+        //     setIsLoading(false)
+        //   });
       };
 
 

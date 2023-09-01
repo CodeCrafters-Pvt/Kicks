@@ -49,6 +49,9 @@ const UserSchema=new Schema({
         type: Boolean,
         default: true,
     },
+    refreshToken:{
+        type:[String]
+    },
     resetToken: {
         type: String,
         default: null,

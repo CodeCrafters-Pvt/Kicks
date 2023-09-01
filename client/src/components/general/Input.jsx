@@ -89,7 +89,7 @@ export default function Input({
         <div className='flex'>
         <motion.input {...field} type={type} id={field.name} placeholder={`${placeholder ?`Enter ${placeholder}`:''}`}
          ref={inputRef}
-        min={type==="number" && 0}
+        min= {(type==="number") ? 0 : null}
          onFocus={() => setInputFocused(true)} 
          onBlur={()=>setInputFocused(false)}
          onMouseEnter={()=>setIsHovered(true)}

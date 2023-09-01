@@ -1,9 +1,9 @@
-import {createBrowserRouter,createRoutesFromElements,Route,RouterProvider} from "react-router-dom";
-import {Provider} from 'react-redux'
-import { store } from "./store";
-import {RegisterUser,Login,ResetPassword,ForgotPassword,Profile} from "./pages";
-import {RequireAuth} from "./components"
-import {RootLayout,AuthLayout} from "./layouts"
+import { createBrowserRouter,createRoutesFromElements,Route,RouterProvider } from "react-router-dom";
+import { Provider } from 'react-redux'
+import { store } from "./redux/store";
+import { RegisterUser,Login,ResetPassword,ForgotPassword,Profile } from "./pages";
+import { RequireAuth } from "./components"
+import { RootLayout,AuthLayout, UserLayout } from "./layouts"
 
 import Cart from "./pages/Cart/cart";
 
@@ -18,7 +18,7 @@ function App() {
           <Route path="/reset-password" element={<ForgotPassword/>}/>
           <Route path="/reset-password/:token" element={<ResetPassword/>}/>
         </Route>
-        <Route element={<RequireAuth/>}>
+        <Route element={<UserLayout/>}>
           <Route path="/profile"  element={<Profile />} />
         </Route>    
         <Route path="/cart" element={<Cart/>}/>
@@ -27,7 +27,7 @@ function App() {
   
   return(
     <Provider store={store}>
-      <RouterProvider router={router}/>
+        <RouterProvider router={router}/>
     </Provider>
   )
 }
