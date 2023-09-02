@@ -32,7 +32,7 @@ export default function NavBar() {
         <NavLink to="/profile">
           <FaRegHeart />
         </NavLink>
-        <NavLink to="/profile">
+        <NavLink to="/cart">
           <AiOutlineShoppingCart />
         </NavLink>
         <NavLink to="/register">

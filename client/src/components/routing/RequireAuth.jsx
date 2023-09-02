@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 
 const RequireAuth=({allowedRoles})=>{
     const user = useSelector(selectCurrentUser)
+    console.log(user)
     const location = useLocation()
 
     return (

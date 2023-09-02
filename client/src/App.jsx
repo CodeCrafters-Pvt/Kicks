@@ -1,14 +1,12 @@
 import { createBrowserRouter,createRoutesFromElements,Route,RouterProvider } from "react-router-dom";
 import { Provider } from 'react-redux'
 import { store } from "./redux/store";
-import { RegisterUser,Login,ResetPassword,ForgotPassword,Profile } from "./pages";
+import { RegisterUser,Login,ResetPassword,ForgotPassword,Profile,Cart } from "./pages";
 import { RequireAuth } from "./components"
 import { RootLayout,AuthLayout, UserLayout } from "./layouts"
 
-import Cart from "./pages/Cart/cart";
 
 function App() {
-
   const router=createBrowserRouter(
     createRoutesFromElements( 
       <Route path="/" element={<RootLayout/>}>
@@ -18,10 +16,12 @@ function App() {
           <Route path="/reset-password" element={<ForgotPassword/>}/>
           <Route path="/reset-password/:token" element={<ResetPassword/>}/>
         </Route>
-        <Route element={<UserLayout/>}>
-          <Route path="/profile"  element={<Profile />} />
+        <Route element={<RequireAuth allowedRoles={['2001']}/>}>
+          <Route element={<UserLayout/>}>
+            <Route path="/profile"  element={<Profile />} />
+          </Route>
         </Route>    
-        <Route path="/cart" element={<Cart/>}/>
+        <Route path="/cart" element={<Cart/>}/>  
       </Route>
     ))
   

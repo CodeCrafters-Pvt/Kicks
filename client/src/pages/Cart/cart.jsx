@@ -1,6 +1,6 @@
 import { useState , useEffect} from "react";
 import axios from "axios";
-import CartItems from "./cart-items";
+import CartItems from "../../components/cart/cart-items";
 import { Link } from "react-router-dom";
 import { BiSolidSelectMultiple, BiChevronLeft } from "react-icons/bi"
 
