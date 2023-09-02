@@ -37,8 +37,8 @@ const UserSchema=new Schema({
         },
       },
     role: {
-        type: String,
-        default: "2001",
+        type: [String],
+        default: ["2001"],
         required:true,
     },
     isPremium: {

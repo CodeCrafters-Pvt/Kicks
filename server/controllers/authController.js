@@ -15,13 +15,13 @@ const login = async (req, res) => {
     const cookies = req.cookies;
     const { email, password } = req.body;
     if (!email || !password)
-      return res.status(400).json({ error: "Missing Credentials" });
+      return res.status(404).json({ error: "Missing Credentials" });
 
     const user = await userModel.findOne({ email });
     const admin = await adminModel.findOne({ email });
 
     if (!user && !admin)
-      return res.status(401).json({ error: "User not found" });
+      return res.status(404).json({ error: "User not found" });
 
     var account;
 
@@ -29,7 +29,7 @@ const login = async (req, res) => {
     if (admin) account = admin;
 
     const match = await bcrypt.compare(password, account.userAccount.password);
-    if (!match) return res.status(400).json({ error: "Incorrect Password" });
+    if (!match) return res.status(401).json({ error: "Incorrect Password" });
 
     const accessToken = jwt.sign(
       {
@@ -39,13 +39,13 @@ const login = async (req, res) => {
         },
       },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: "10s" }
+      { expiresIn: "20m" }
     );
 
     const newRefreshToken = jwt.sign(
       { username: account.userAccount.username },
       process.env.REFRESH_TOKEN_SECRET,
-      { expiresIn: "15s" }
+      { expiresIn: "3d" }
     );
 
     let newRefreshTokenArray = !cookies?.jwt

@@ -1,9 +1,10 @@
 import { NavLink } from "react-router-dom";
+import Link from "./Link";
 import SearchBar from "./SearchBar";
 import Logo from "../../assets/logo.png";
-import { FaRegHeart } from "react-icons/fa";
-import { AiOutlineShoppingCart } from "react-icons/ai";
-import { BiUser } from "react-icons/bi";
+import { AiOutlineHeart,AiFillHeart } from "react-icons/ai";
+import { BsCart,BsCartFill } from "react-icons/bs";
+import { HiOutlineUser,HiUser } from "react-icons/hi";
 
 export default function NavBar() {
   return (
@@ -19,26 +20,25 @@ export default function NavBar() {
         </NavLink>
 
         <nav className="flex  w-[35vw] justify-between font-medium text-md">
-          <NavLink to="/">Home</NavLink>
-          <NavLink to="/profile">Collection</NavLink>
-          <NavLink to="/register">About</NavLink>
-          <NavLink to="/register">Contact</NavLink>
+          <Link to="/" element="Home"/>
+          <Link to="/profile" element="Collection"/>
+          <Link to="/login" element="Login"/>
+          <Link to="/register" element="Contact"/>
         </nav>
       </div>
 
       {/* <SearchBar /> */}
 
       <div className="flex gap-4 text-2xl">
-        <NavLink to="/profile">
-          <FaRegHeart />
-        </NavLink>
-        <NavLink to="/profile">
-          <AiOutlineShoppingCart />
-        </NavLink>
-        <NavLink to="/register">
-          <BiUser />
-        </NavLink>
+      <Link to="/profile" element={<AiOutlineHeart/>} activeElement={<AiFillHeart/>}/>
+      <Link to="/register" element={<BsCart />} activeElement={<BsCartFill/>}/>
+      <Link to="/register" element={<HiOutlineUser />} activeElement={<HiUser/>}/>
       </div>
     </div>
   );
 }
+
+
+
+
+
