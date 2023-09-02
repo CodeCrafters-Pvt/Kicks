@@ -6,15 +6,12 @@ export const authSlice=createSlice({
   reducers:{
     setCredentials:(state,action)=>{
       const {user,token} =action.payload
-      const storageItem= { email: user.email, token}
       state.user = user
       state.token = token
-      localStorage.setItem("user", JSON.stringify(storageItem));
     },
     logOut:(state,action)=>{
       state.user = null
       state.token = null
-      localStorage.removeItem("user");
     }
   },
 })
