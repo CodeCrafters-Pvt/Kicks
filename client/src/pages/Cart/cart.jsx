@@ -3,29 +3,14 @@ import axios from "axios";
 import CartItems from "../../components/cart/cart-items";
 import { Link } from "react-router-dom";
 import { BiSolidSelectMultiple, BiChevronLeft } from "react-icons/bi"
+import { useGetCartProductsQuery } from "../../redux/api/cartApiSlice";
 
 const Cart = () => {
-    const [cartProducts, setCartProducts] = useState([]);
-
-    useEffect(() => {
-      const fetchCartProducts = async () => {
-        try {
-          await axios.get('http://localhost:3001/cart/get-all-cart-products')
-          .then((response) => {
-            setCartProducts(response.data);
-          })
-          .catch((error) => {
-            console.log(error);
-          })
-        } catch (error) {
-          console.error(error);
-        }
-      };
+  const {isLoading,isError,error,data:cartProducts} = useGetCartProductsQuery()
+  console.log(cartProducs)
+  console.log(typeof(cartProducs))
   
-      fetchCartProducts();
-    }, []);
-    
-    console.log(cartProducts);
+
     return (
       <>  
         <div className="container flex bg-gray-200 justify-center text-textNormal">

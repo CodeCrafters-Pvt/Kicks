@@ -35,13 +35,13 @@ const authRouter = require("./routes/auth");
 app.use("/auth", authRouter);
 const refreshRouter = require("./routes/refresh");
 app.use("/refresh", refreshRouter);
+const cartRouter = require('./routes/cart')
+app.use("/cart",cartRouter);
 
 app.use(requireAuth);
 const productRouter = require("./routes/product");
 app.use("/products", productRouter);
 
-const cartRouter = require('./routes/cart')
-app.use("/cart",cartRouter);
 
 
 mongoose

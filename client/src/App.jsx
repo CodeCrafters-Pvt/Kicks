@@ -19,9 +19,9 @@ function App() {
         <Route element={<RequireAuth allowedRoles={['2001']}/>}>
           <Route element={<UserLayout/>}>
             <Route path="/profile"  element={<Profile />} />
+            <Route path="/cart" element={<Cart/>}/>  
           </Route>
         </Route>    
-        <Route path="/cart" element={<Cart/>}/>  
       </Route>
     ))
   
