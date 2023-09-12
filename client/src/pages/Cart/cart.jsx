@@ -1,15 +1,19 @@
-import { useState , useEffect} from "react";
-import axios from "axios";
 import CartItems from "../../components/cart/cart-items";
+import CartSummary from "../../components/cart/order-summary"
 import { Link } from "react-router-dom";
 import { BiSolidSelectMultiple, BiChevronLeft } from "react-icons/bi"
 import { useGetCartProductsQuery } from "../../redux/api/cartApiSlice";
 
 const Cart = () => {
-  const {isLoading,isError,error,data:cartProducts} = useGetCartProductsQuery()
+  const {isLoading,isError,error,data:cartProducts} = useGetCartProductsQuery();
   console.log(cartProducts)
   console.log(typeof(cartProducts))
-
+  
+  if (isLoading) {
+    // Render loading content while fetching data
+    return <div>Loading...</div>;
+  }
+  
   return (
     <>  
       <div className="container flex bg-gray-200 justify-center text-textNormal">
@@ -51,8 +55,11 @@ const Cart = () => {
                 }
               </div>
             </div>
-            <div className="flex col-start-8 col-end-12 h-90 bg-slate-800 rounded-2xl">
+            <div className="block col-start-8 col-end-12 h-auto bg-light rounded-2xl p-4">
               {/* order summary */}
+              <CartSummary 
+                cartProductId={cartProducts.map((products) => products._id)}
+              />
             </div>
           </div>
         </div>

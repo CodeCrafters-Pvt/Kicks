@@ -6,7 +6,7 @@ import { BsPlus } from "react-icons/bs"
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai"
 
 const CartItems = ({productName, productType, sellingPrice}) => {
-  const [checked, setChecked] = useState(false);
+  const [checked, setChecked] = useState(true);
   const [orderQuantity, setOrderQuantity] = useState(1); 
 
 

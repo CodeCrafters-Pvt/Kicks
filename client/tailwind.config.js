@@ -25,7 +25,8 @@ export default {
         primaryDark: "#58E6D9",
         secondaryDark: "#58E6D9",
         inputOnFocus: "#c7c6eb",
-        textNormal: "#1E1E1E"
+        textNormal: "#1E1E1E",
+        lightPurple: "#5F65C3"
       },
       screens: {
         "2xl": { max: "1535px" },
