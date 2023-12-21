@@ -22,7 +22,7 @@ const AllProducts = () => {
         {products.map((product) => (
           <Card
             key={product._id} // Assuming the product object has an "_id" property
-            image={product.image}
+            image={product.images[0]}
             productName={product.productName}
             productCollection={product.productDesc}
             regularPrice={product.regularPrice}

@@ -14,27 +14,22 @@ const NewProduct = () => {
 
 
 
-  const handleAddProduct = (data,_onSubmitProps_) => {
+  const handleAddProduct = async (data,_onSubmitProps_) => {
+    if(selectedFiles.length>0){
+    const folderName=`${data.productID} - ${data.productName}`
+    await dispatch( uploadImages({ images: selectedFiles,folderName }))
+    .unwrap()
+    .then((res)=>{
+      console.log("images:",res)
+      data.images=res
+      dispatch(clearImages())
+    })}
+    console.log(data)
     showToast(
       addProduct(data),
       ()=>{
-        if(selectedFiles.length>0){
-          const folderName=`${data.productID} - ${data.productName}`
-        dispatch( uploadImages({ images: selectedFiles,folderName }))
-        .unwrap()
-        .then(()=>{
-          dispatch(clearImages())
           setIsClicked(false)
           _onSubmitProps_.resetForm()
-        })
-        .catch((err)=>{
-          console.log(err)
-        })
-        }
-        else{
-          setIsClicked(false)
-          _onSubmitProps_.resetForm()
-        }
       },
       (err)=>{console.log(err)}
     )}
@@ -55,6 +50,7 @@ const NewProduct = () => {
     productDesc: '',
     category: '',
     productCollection: '',
+    images:null
   };
 
   const validationSchema = Yup.object().shape({
