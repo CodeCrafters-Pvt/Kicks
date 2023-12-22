@@ -3,6 +3,7 @@ import Card from '../../../components/products/collection/ProductsCard';
 import axios from 'axios';
 const AllProducts = () => {
     const [products, setProducts] = useState([]);
+
     useEffect(() => {
         const fetchProducts = async () => {
           try {
@@ -16,13 +17,14 @@ const AllProducts = () => {
     
         fetchProducts();
       }, []);
+
   return (
     <div className='flex-1'> 
-      <div className='grid grid-cols-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
+      <div className='grid grid-cols-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-1 '>
         {products.map((product) => (
           <Card
             key={product._id} // Assuming the product object has an "_id" property
-            image={product.images[0]}
+            images={product.images}
             productName={product.productName}
             productCollection={product.productDesc}
             regularPrice={product.regularPrice}
