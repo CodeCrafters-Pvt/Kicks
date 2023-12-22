@@ -47,13 +47,6 @@ const ProductsCard = ({ images, productName, productCollection, regularPrice, se
         </p>
         
         </div>
-        {/* <section className="flex items-center mb-4">
-          <AiFillStar className="text-yellow-500" />
-          <AiFillStar className="text-yellow-500" />
-          <AiFillStar className="text-yellow-500" />
-          <AiFillStar className="text-yellow-500" />
-          <span className="ml-2">4</span>
-        </section> */}
 
         <div className="flex justify-end">
           <AiOutlineHeart className="mr-2" />
