@@ -8,10 +8,17 @@ const Category = ({handleChange}) => {
     <>
    <h2 className='text-xl font-normal mb-[20px]'>Category</h2>   
   
-   <label className=' block relative pl-[20px] mb-[12px]'>
-    <input onChange={handleChange} type="radio" name="test"/>
+   {/* <label className=' block relative pl-[20px] mb-[12px]'>
+    <Input onChange={handleChange} type="radio" name="test"/>
     <span></span> All
-   </label>
+   </label> */}
+
+   <Input 
+   handleChange={handleChange}
+   value="All"
+   title = "All"
+   name="test"
+    />
    <Input 
    handleChange={handleChange}
    value="Sneaker"

@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import { AiFillStar } from 'react-icons/ai'
 import { AiOutlineHeart } from 'react-icons/ai'
 import { useState } from 'react';
 import { AiOutlineShoppingCart } from 'react-icons/ai'

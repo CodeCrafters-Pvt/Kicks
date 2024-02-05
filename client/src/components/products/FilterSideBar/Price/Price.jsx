@@ -31,11 +31,18 @@ const Price = ({handleChange}) => {
     <input type="radio" name="test"/>
     <span></span>  Over $150
    </label> */}
-  <label className=' block relative pl-[20px] mb-[12px]'>
+  {/* <label className=' block relative pl-[20px] mb-[12px]'>
     <input onChange={handleChange} type="radio" name="test2"/>
     <span></span> All
    </label>
+ */}
 
+   <Input 
+   handleChange={handleChange}
+   value="All"
+   title = " All"
+   name="test2"
+    />
 <Input 
    handleChange={handleChange}
    value="50"
