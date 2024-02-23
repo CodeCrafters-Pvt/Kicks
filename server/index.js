@@ -31,8 +31,13 @@ app.use((req, res, next) => {
 //Routers
 const userRouter = require("./routes/user");
 app.use("/users", userRouter);
+
+const adminRouter = require("./routes/admin");
+app.use("/admins", adminRouter);
+
 const authRouter = require("./routes/auth");
 app.use("/auth", authRouter);
+
 const refreshRouter = require("./routes/refresh");
 app.use("/refresh", refreshRouter);
 

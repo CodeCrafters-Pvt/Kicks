@@ -8,7 +8,8 @@ import { Provider } from "react-redux";
 import { store } from "./redux/store";
 import {
   RegisterUser,
-  Login,
+  RegisterAdmin,
+  UserLogin,
   ResetPassword,
   ForgotPassword,
   Profile,
@@ -23,7 +24,8 @@ function App() {
         {/* public Routes */}
         <Route element={<AuthLayout />}>
           <Route path="/register" element={<RegisterUser />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/register-admin" element={<RegisterAdmin />} />
+          <Route path="/login" element={<UserLogin />} />
           <Route path="/reset-password" element={<ForgotPassword />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
         </Route>

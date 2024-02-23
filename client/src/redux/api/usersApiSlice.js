@@ -21,7 +21,7 @@ export const usersApiSlice = apiSlice.injectEndpoints({
       }),
       requestOtp: builder.mutation({
         query: (data) => ({
-          url: "/users/signup/verify",
+          url: "/auth/request-otp/user",
           method: "POST",
           body: data,
         }),

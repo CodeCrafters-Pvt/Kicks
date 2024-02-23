@@ -2,8 +2,6 @@ const UserModel = require('../models/user')
 const PastUserModel = require('../models/pastUser')
 const OtpModel= require('../models/otp')
 const bcrypt = require('bcryptjs')
-const sendEmail = require('../middlewears/email')
-const otpGenerator = require('otp-generator')
 const {createToken} =require('./authController')
 
 
@@ -47,34 +45,7 @@ const getUser= async (req,res)=>{
     }
 }
 
-//send OTP
-const sendOtp = async (req,res)=>{
-    const {email,userName} =req.body;
-    try{
-        if(!email || !userName) return res.status(400).json({error:"Missing Credentials"})
-        //check if credentials are already taken
-        const existingUserName=await UserModel.findOne({"userAccount.username":userName});
-        const existingUserEmail=await UserModel.findOne({email:email});
-        if(existingUserName && existingUserEmail)  return res.status(409).json({error:"Username and E-mail already exists"});
-        if(existingUserName)  return res.status(409).json({error:"Username already exists"});
-        if(existingUserEmail)  return res.status(409).json({error:"E-mail already exists"});
 
-        //store and send Otp through e-mail
-        const OTP = otpGenerator.generate(6, { upperCaseAlphabets: false, lowerCaseAlphabets: false, specialChars: false });
-        const EmailContent = `<h3>Your OTP for verification</h3>
-                              <h1> ${OTP} </h1>`;
-        sendEmail(email,EmailContent,"OTP Verification");
-        const hashedOTP= await bcrypt.hash(OTP,10);
-        const savedOTP= await OtpModel.create({
-            otp:hashedOTP,
-            email:email,
-        })
-        res.status(200).json({message:"OTP sent successfully"})
-    }
-    catch(error){
-        res.status(400).json({error:error.message})
-    }
-}
 
 
 
@@ -113,7 +84,8 @@ const removeUser= async (req,res)=>{
     try{
         const removedUser = await UserModel.findByIdAndDelete(id);
         if (!removedUser)   return res.status(404).json({ error: 'User not found' });
-        const { _id, ...pastUserData } = removedUser.toObject();
+        const { email,phoneNumber } = removedUser.toObject();
+        const pastUserData={email,phoneNumber}
         await PastUserModel.create(pastUserData);
         res.status(200).json({ message: 'User removed successfully' });
     }
@@ -177,4 +149,4 @@ const reactivateUser = async (req, res) => {
 
 
 
-module.exports={createUser,getAllUsers,getUser,deactivateUser,reactivateUser,removeUser,sendOtp}
+module.exports={createUser,getAllUsers,getUser,deactivateUser,reactivateUser,removeUser}
