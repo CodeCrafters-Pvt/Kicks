@@ -24,6 +24,7 @@ export default function Button({
         ${(!variant || variant==="plain" || (variant!=="dark" && variant!=="positive" && variant!=="danger") ) &&
          '!bg-light !text-dark hover:!brightness-100 '}
         ${variant==="dark" && '!bg-dark'}
+        ${variant==="primary-invert" && '!bg-white !outline-white hover:!brightness-105 !text-primary'}
         ${variant==="positive" && '!bg-green-500 !outline-green-500 hover:!brightness-105'}
         ${variant==="danger" && '!bg-red-500 !outline-red-500'}
         
