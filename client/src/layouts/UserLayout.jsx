@@ -1,4 +1,4 @@
-import { NavBar } from "../components"
+import { NavBar,Footer } from "../components"
 import {Outlet} from "react-router-dom"
 
 export default function UserLayout() {
@@ -6,6 +6,7 @@ export default function UserLayout() {
     <>
       <NavBar/>
       <Outlet/>
+    <Footer/>
     </>
   )
 }
