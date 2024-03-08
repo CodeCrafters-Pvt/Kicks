@@ -12,15 +12,18 @@ import {
   ResetPassword,
   ForgotPassword,
   Profile,
+  LandingPage
   Cart,
 } from "./pages";
 import { RequireAuth } from "./components";
 import { RootLayout, AuthLayout, UserLayout } from "./layouts";
 
+
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<RootLayout />}>
+        <Route path="/landing-page" element={<LandingPage/>}/>
         {/* public Routes */}
         <Route element={<AuthLayout />}>
           <Route path="/register" element={<RegisterUser />} />
