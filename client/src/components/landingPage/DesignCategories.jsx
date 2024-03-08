@@ -30,7 +30,7 @@ export default function DesignCategories() {
         <Link to={to}>
         <div
             className={`absolute top-1/2 left-48 ${
-              isHovered ? "hover:border-primary hover:border-4 p-1 rounded-xl": ""
+              isHovered ? "hover:border-primary border-transparent border-4 p-1 rounded-xl": "hidden"
             }`}
           >
             <Button
@@ -55,7 +55,7 @@ export default function DesignCategories() {
             WOMEN'S <br /> WEAR
           </>
         }
-        className="!text-black top-56"
+        className="!text-white top-56"
         to="/"
       />
       <Card

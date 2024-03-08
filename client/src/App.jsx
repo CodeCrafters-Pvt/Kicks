@@ -12,9 +12,8 @@ import {
   ResetPassword,
   ForgotPassword,
   Profile,
-  LandingPage
-  Cart,
-} from "./pages";
+  LandingPage,
+  Cart} from "./pages";
 import { RequireAuth } from "./components";
 import { RootLayout, AuthLayout, UserLayout } from "./layouts";
 
