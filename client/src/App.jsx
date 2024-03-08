@@ -12,6 +12,7 @@ import {
   ResetPassword,
   ForgotPassword,
   Profile,
+  Cart,
 } from "./pages";
 import { RequireAuth } from "./components";
 import { RootLayout, AuthLayout, UserLayout } from "./layouts";
@@ -31,9 +32,10 @@ function App() {
         {/* Authorized Routes */}
 
         {/* User Routes */}
-        <Route element={<RequireAuth allowedRoles={["2001"]}/>}>
+        <Route element={<RequireAuth allowedRoles={["2001"]} />}>
           <Route element={<UserLayout />}>
             <Route path="/profile" element={<Profile />} />
+            <Route path="/cart" element={<Cart />} />
             <Route path="/" />
           </Route>
         </Route>
