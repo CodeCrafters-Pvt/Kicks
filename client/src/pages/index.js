@@ -4,7 +4,13 @@ import ResetPassword from "./ResetPassword";
 import ForgotPassword from "./ForgotPassword";
 import Profile from "./Profile";
 import LandingPage from "./LandingPage";
+import Cart from "./Cart";
 
-
-
-export {Login,RegisterUser,ResetPassword,ForgotPassword,Profile,LandingPage}
+export {
+  Login,
+  RegisterUser,
+  ResetPassword,
+  ForgotPassword,
+  Profile,LandingPage,
+  Cart,
+};

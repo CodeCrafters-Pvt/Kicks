@@ -8,7 +8,7 @@ import { HiOutlineUser, HiUser } from "react-icons/hi";
 
 export default function NavBar() {
   return (
-    <div className="flex justify-between items-center mr-5">
+    <div className="flex justify-between items-center mr-5 mb-4">
       <div className="flex items-center gap-14">
         <NavLink to="/">
           <div
