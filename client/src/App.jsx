@@ -13,16 +13,17 @@ import {
   ForgotPassword,
   Profile,
   LandingPage,
-  Cart} from "./pages";
+  Cart,
+  Checkout
+} from "./pages";
 import { RequireAuth } from "./components";
 import { RootLayout, AuthLayout, UserLayout } from "./layouts";
-
 
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<RootLayout />}>
-        <Route path="/landing-page" element={<LandingPage/>}/>
+        <Route path="/landing-page" element={<LandingPage />} />
         {/* public Routes */}
         <Route element={<AuthLayout />}>
           <Route path="/register" element={<RegisterUser />} />
@@ -38,6 +39,7 @@ function App() {
           <Route element={<UserLayout />}>
             <Route path="/profile" element={<Profile />} />
             <Route path="/cart" element={<Cart />} />
+            <Route path="/check-out" element={<Checkout />} />
             <Route path="/" />
           </Route>
         </Route>

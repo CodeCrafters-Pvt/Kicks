@@ -8,10 +8,12 @@ export const authSlice=createSlice({
       const {user,token} =action.payload
       state.user = user
       state.token = token
+      document.cookie=`auth_token=${token};path=/`
     },
     logOut:(state,action)=>{
       state.user = null
       state.token = null
+      document.cookie="auth_token=;expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
     }
   },
 })

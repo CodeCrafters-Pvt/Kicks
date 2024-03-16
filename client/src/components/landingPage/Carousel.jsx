@@ -47,7 +47,7 @@ export default function Carousel({slides}) {
             <h1 className=" text-primary font-heading text-6xl">
               been easier!
             </h1>
-            <p className=" my-6 text-gray">
+            <p className=" my-6 text-gray-600">
               <span className=" text-dark font-heading">
                 Kicks: FashionForAll{" "}
               </span>
