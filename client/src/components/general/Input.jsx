@@ -10,6 +10,8 @@ import { BiSolidSelectMultiple, BiSelectMultiple } from "react-icons/bi";
 export default function Input({
   field,
   label,
+  hasLabel = true,
+  bordered = true,
   isRequired,
   type,
   placeholder,
@@ -28,6 +30,7 @@ export default function Input({
   selectAll,
   handleSelectAll,
   isChecked,
+  onChange,
   className,
 }) {
   const inputRef = useRef(null);
@@ -36,15 +39,15 @@ export default function Input({
   const [initialClick, setInitialClick] = useState(false);
   const [isAllSelected, setIsAllSelected] = useState(false);
 
-  const handleSelectAllClick=()=>{
-    if(isAllSelected){
-      setIsAllSelected(false)
-      handleSelectAll()
+  const handleSelectAllClick = () => {
+    if (isAllSelected) {
+      setIsAllSelected(false);
+      handleSelectAll();
     } else {
-      setIsAllSelected(true)
-      handleSelectAll()
+      setIsAllSelected(true);
+      handleSelectAll();
     }
-  }
+  };
 
   const animation = {
     x: errorMsg && isBtnClicked ? [null, -5, 5, -3, 3, 0] : 0,
@@ -84,9 +87,11 @@ export default function Input({
   return (
     <div className={`mx-2 my-2 flex flex-col gap-1 `}>
       <div className={`flex justify-between items-center ${contStyle}`}>
-        <label htmlFor={field.name} className={`font-semibold ${labelStyle}`}>
-          {label}
-        </label>
+        {hasLabel && (
+          <label htmlFor={field.name} className={`font-semibold ${labelStyle}`}>
+            {label}
+          </label>
+        )}
         {textArea && initialClick && errorMsg && (
           <motion.div animate={animation}>
             <MdErrorOutline
@@ -114,7 +119,7 @@ export default function Input({
               {...field}
               type={type}
               id={field.name}
-              placeholder={`${placeholder ? `Enter ${placeholder}` : ""}`}
+              placeholder={`${placeholder ? ` ${placeholder}` : ""}`}
               ref={inputRef}
               min={type === "number" ? 0 : null}
               onFocus={() => setInputFocused(true)}
@@ -122,7 +127,10 @@ export default function Input({
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
               animate={animation}
-              className={`border border-r-0 border-dark w-[14vw] rounded-l-[0.3rem]  px-2 leading-7
+              className={`
+              w-[14vw]   px-2 leading-7
+        ${bordered && "border border-r-0 border-dark rounded-l-[0.3rem]"}
+        ${!bordered && " border-b border-gray-400 bg-transparent"}
         ${isHovered && "border-inputOnFocus"}
         ${isInputFocused && " outline-none border-inputOnFocus "}
         ${
@@ -140,7 +148,12 @@ export default function Input({
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
               animate={animation}
-              className={`h-8 cursor-text bg-light flex items-center border border-l-0 border-dark rounded-r-[0.3rem] w-5 
+              className={`h-8 cursor-text bg-light flex items-center w-5
+              ${bordered && "border border-l-0 border-dark rounded-r-[0.3rem]"} 
+              ${
+                !bordered &&
+                " border-b border-gray-400 bg-transparent outline-none"
+              }
         ${isHovered && "border-inputOnFocus"}
         ${isInputFocused && "outline-none border-inputOnFocus"}
         ${
@@ -227,8 +240,13 @@ export default function Input({
         <motion.textarea
           {...field}
           id={field.name}
-          placeholder={`${placeholder ? `Enter ${placeholder}` : ""}`}
-          className={`outline w-full outline-1 rounded-[0.3rem] px-1 leading-7 resize-none ${inputStyle}
+          placeholder={`${placeholder ? ` ${placeholder}` : ""}`}
+          className={`outline w-full outline-1 rounded-[0.3rem] px-1 leading-7 resize-none
+          ${
+            !bordered &&
+            "!outline-none !bg-transparent border-b border-gray-400"
+          }
+           ${inputStyle}
           ${
             initialClick &&
             errorMsg &&
@@ -260,15 +278,26 @@ export default function Input({
         type === "checkbox" &&
         (selectAll ? (
           isAllSelected ? (
-            <BiSolidSelectMultiple onClick={()=>{handleSelectAllClick()}} className="cursor-pointer text-primary text-xl"/>
+            <BiSolidSelectMultiple
+              onClick={() => {
+                handleSelectAllClick();
+              }}
+              className="cursor-pointer text-primary text-xl"
+            />
           ) : (
-            <BiSelectMultiple onClick={()=>{handleSelectAllClick()}} className="cursor-pointer text-xl"/>
+            <BiSelectMultiple
+              onClick={() => {
+                handleSelectAllClick();
+              }}
+              className="cursor-pointer text-xl"
+            />
           )
         ) : (
           <motion.input
             type="checkbox"
             id={field}
             checked={isChecked}
+            onChange={onChange}
             className={`w-4 h-4 cursor-pointer accent-primary   focus:ring-primary focus:ring-1 focus:ring-offset-1 ${className}`}
           />
         ))}
@@ -278,7 +307,9 @@ export default function Input({
 
 Input.propTypes = {
   field: PropTypes.object,
+  hasLabel: PropTypes.bool,
   label: PropTypes.string,
+  bordered: PropTypes.bool,
   isRequired: PropTypes.bool,
   type: PropTypes.string,
   inputStyle: PropTypes.string,
@@ -295,6 +326,8 @@ Input.propTypes = {
   paletteWidth: PropTypes.string,
   colorSize: PropTypes.number,
   selectAll: PropTypes.bool,
-  handleSelectAll:PropTypes.func,
+  handleSelectAll: PropTypes.func,
   className: PropTypes.string,
+  isChecked: PropTypes.bool,
+  onChange: PropTypes.func,
 };

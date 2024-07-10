@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 export default function Stepper({
   steps,
   currentStep,
+  autoAdjust,
   className,
   circleClass,
   innerCircleClass,
@@ -14,11 +15,12 @@ export default function Stepper({
   const activeConnector = (index) => currentStep > index;
   const isFinalStep = (index) => index === steps - 1;
 
-  const connectorWidth = `${100 / (steps - 1)}%`;
+  
+  const connectorWidth = autoAdjust ? `${100 / (steps - 1)}%` : "";
 
   const InnerCircle = (
     <motion.div
-      className={`w-[60%] h-[60%] rounded-full bg-primary absolute top-[22%] left-[18%] ${innerCircleClass}`}
+      className={`w-[60%] h-[60%] rounded-full bg-primary absolute top-[22%] left-[18.5%] ${innerCircleClass}`}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -46,7 +48,7 @@ export default function Stepper({
               className={`mx-0.5 w-24 h-0.5 ${
                 activeConnector(index) ? "bg-primary" : "bg-gray-400"
               } ${connectorClass}`}
-              // style={{ width: connectorWidth }}
+             style={{ width: connectorWidth }}
               initial={{ scaleX: 0 }}
               animate={{ scaleX: 1 }}
               exit={{ scaleX: 0 }}
@@ -62,6 +64,7 @@ export default function Stepper({
 Stepper.propTypes = {
   steps: PropTypes.number.isRequired,
   currentStep: PropTypes.number.isRequired,
+  autoAdjust: PropTypes.bool,
   circleClass: PropTypes.string,
   innerCircleClass: PropTypes.string,
   connectorClass: PropTypes.string,
