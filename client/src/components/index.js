@@ -1,14 +1,37 @@
-import Button from "./general/Button"
-import Input from "./general/Input"
+import Button from "./general/Button";
+import Input from "./general/Input";
 import { showToast } from "./general/ShowToast";
 import RequireAuth from "./routing/RequireAuth";
 import NavBar from "./navBar/NavBar";
 import Brands from "./landingPage/Brands";
-import DesignCategories from "./landingPage/DesignCategories"
+import DesignCategories from "./landingPage/DesignCategories";
 import Footer from "./general/Footer";
 import CartSummary from "./cart/CartSummary";
-import PaymentGateway from "./cart/PaymentGateway";
+import PaymentGateway from "./checkOut/PaymentGateway";
 import Card from "./cart/Card";
+import Stepper from "./general/Stepper";
+import Form from "./checkOut/Form";
+import PricingSummary from "./checkOut/PricingSummary";
+import CheckoutStep1 from "./checkOut/Step1";
+import OrderSummary from "./checkOut/OrderSummary";
+import CheckOutStep2 from "./checkOut/Step2";
 
-
-export {Button,Input,showToast,NavBar,PaymentGateway,Card,CartSummary,RequireAuth,Brands,DesignCategories,Footer};
+export {
+  Button,
+  Input,
+  showToast,
+  NavBar,
+  PaymentGateway,
+  Card,
+  CartSummary,
+  RequireAuth,
+  Brands,
+  DesignCategories,
+  Footer,
+  Stepper,
+  Form,
+  PricingSummary,
+  CheckoutStep1,
+  OrderSummary,
+  CheckOutStep2,
+};

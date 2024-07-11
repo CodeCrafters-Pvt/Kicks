@@ -1,25 +1,11 @@
 import { useDispatch } from "react-redux";
 import { useGeneratePaymentConfigMutation } from "../../redux/api/paymentApiSlice";
 import { setPaymentConfig } from "../../redux/slices/paymentSlice";
-import { Button } from "../../components";
+import { Button } from "..";
 
-
-export default function PaymentGateway() {
+export default function PaymentGateway({ data }) {
   const dispatch = useDispatch();
   const [generatePaymentConfig] = useGeneratePaymentConfigMutation();
-
-  const dummy = {
-    id: "12345",
-    items: "Door bell wireless",
-    amount: "1000",
-    firstName: "John",
-    lastName: "Doe",
-    email: "john.doe@example.com",
-    phone: "+1234567890",
-    address: "123 Main St",
-    city: "Anytown",
-    country: "CountryName",
-  };
 
   const initiatePayment = async (orderDetails) => {
     await generatePaymentConfig(orderDetails)
@@ -33,10 +19,11 @@ export default function PaymentGateway() {
   };
   return (
     <Button
-      text="Checkout ->"
+      text="Place Order"
       type="button"
       variant="primary"
-      onClick={() => initiatePayment(dummy)}
+      className="w-60"
+      onClick={() => initiatePayment(data)}
     />
   );
 }
