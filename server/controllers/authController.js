@@ -100,13 +100,15 @@ const login = async (req, res) => {
 
 const logout = async (req, res) => {
   const cookies = req.cookies;
-  if (!cookies?.jwt) return res.sendStatus(204);
+  if (!cookies?.jwt)
+    return res.status(200).json({ message: "Logout Successful" }); // No content to send back
+
   const refreshToken = cookies.jwt;
 
   const user = await userModel.findOne({ refreshToken }).exec();
   if (!user) {
     res.clearCookie("jwt", { httpOnly: true, sameSite: "None", secure: true });
-    return res.sendStatus(204);
+    return res.status(200).json({ message: "Logout Successful" });
   }
 
   // Delete refreshToken in db
@@ -114,7 +116,7 @@ const logout = async (req, res) => {
   const result = await user.save();
 
   res.clearCookie("jwt", { httpOnly: true, sameSite: "None", secure: true });
-  res.sendStatus(204);
+  return res.status(200).json({ message: "Logout Successful" });
 };
 
 const requestResetPassword = async (req, res) => {

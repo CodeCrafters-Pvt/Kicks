@@ -16,6 +16,7 @@ import PricingSummary from "./checkOut/PricingSummary";
 import CheckoutStep1 from "./checkOut/Step1";
 import OrderSummary from "./checkOut/OrderSummary";
 import CheckOutStep2 from "./checkOut/Step2";
+import ProfileButton from "./navBar/ProfileButton";
 
 export {
   Button,
@@ -36,4 +37,5 @@ export {
   CheckoutStep1,
   OrderSummary,
   CheckOutStep2,
+  ProfileButton,
 };
