@@ -1,29 +1,45 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-export const authSlice=createSlice({
-  name:'auth',
-  initialState:{ user:null,token:null },
-  reducers:{
-    setCredentials:(state,action)=>{
-      const {user,token} =action.payload
-      state.user = user
-      state.token = token
-      document.cookie=`auth_token=${token};path=/`
+const initialState = {
+  user: null,
+  token: null,
+  persist: localStorage.getItem("persist") === "true" ? true : false,
+};
+
+export const setCredentialsThunk = createAsyncThunk(
+  "auth/setCredentialsThunk",
+  async (credentials, { dispatch, getState }) => {
+    dispatch(setCredentials(credentials));
+    const state = getState();
+    localStorage.setItem("persist", state.auth.persist.toString());
+    return state.auth;
+  }
+);
+
+export const authSlice = createSlice({
+  name: "auth",
+  initialState,
+  reducers: {
+    setCredentials: (state, action) => {
+      const { user, token, persist } = action.payload;
+      state.user = user;
+      state.token = token;
+      state.persist = persist;
+      localStorage.setItem("persist", persist);
     },
-    logOut:(state,action)=>{
-      state.user = null
-      state.token = null
-      document.cookie="auth_token=;expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
-    }
+    logOut: (state, action) => {
+      state.user = null;
+      state.token = null;
+      state.persist = false;
+      localStorage.removeItem("persist");
+    },
   },
-})
+});
 
+export const { setCredentials, logOut } = authSlice.actions;
 
-export const { setCredentials,logOut}=authSlice.actions;
+export default authSlice.reducer;
 
-export default authSlice.reducer
-
-export const selectCurrentUser=(state)=>state.auth.user
-export const selectCurrentToken=(state)=>state.auth.token
-
-
+export const selectCurrentUser = (state) => state.auth.user;
+export const selectCurrentToken = (state) => state.auth.token;
+export const selectPersist = (state) => state.auth.persist;

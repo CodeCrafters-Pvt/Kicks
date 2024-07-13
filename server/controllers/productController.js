@@ -58,7 +58,6 @@ const removeProduct= async (req,res)=>{
         const removedProduct = await ProductModel.findByIdAndDelete(id);
         if (!removedProduct)   return res.status(404).json({ error: 'Product not found' });
         const { _id, ...pastProductData } = removedUser.toObject();
-        console.log(pastProductData)
         await removedProductModel.create(pastProductData);
         res.status(200).json({ message: 'product removed successfully' });
     }
