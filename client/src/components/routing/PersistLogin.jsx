@@ -7,6 +7,7 @@ import {
   setCredentialsThunk,
 } from "../../redux/slices/authSlice";
 import { useRefreshTokenMutation } from "../../redux/api/refreshApiSlice";
+import { Loader } from "../";
 
 const PersistLogin = () => {
   const dispatch = useDispatch();
@@ -25,6 +26,7 @@ const PersistLogin = () => {
               setCredentialsThunk({
                 token: response.accessToken,
                 user: response.user,
+                persist: localStorage.getItem("persist") || false,
               })
             ).unwrap();
           });
@@ -43,9 +45,7 @@ const PersistLogin = () => {
     }
   }, []);
 
-  return (
-    <>{!persist ? <Outlet /> : isLoading ? <p>Loading ...</p> : <Outlet />}</>
-  );
+  return <>{!persist ? <Outlet /> : isLoading ? <Loader /> : <Outlet />}</>;
 };
 
 export default PersistLogin;
