@@ -16,6 +16,7 @@ export default function Login() {
 
   const [isClicked, setIsClicked] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
 
   const handleLogin = async (values) => {
     setIsLoading(true);
@@ -25,12 +26,16 @@ export default function Login() {
         setIsLoading(false);
         navigate(from, { replace: true });
         dispatch(
-          setCredentials({ user: response.user, token: response.token })
+          setCredentials({
+            user: response.user,
+            token: response.token,
+            persist: isChecked,
+          })
         );
       },
       () => {
         setIsLoading(false);
-      },
+      }
     );
   };
 
@@ -76,19 +81,46 @@ export default function Login() {
                 errorMsg={errors?.password}
                 isBtnClicked={isClicked}
               />
-              <Link to="/reset-password" className="text-primary self-end">
-                <small>Forgot password?</small>
-              </Link>
+              <div className="flex justify-between">
+                <div
+                  className="flex items-center cursor-pointer"
+                  onClick={() => {
+                    setIsChecked((prev) => !prev);
+                  }}
+                >
+                  <Input
+                    type="checkbox"
+                    field="select"
+                    className="mt-1 "
+                    isChecked={isChecked}
+                  />
+                  <small className="mt-2">Trust device</small>
+                </div>
+                <Link
+                  to="/reset-password"
+                  className="text-primary self-end mb-1 "
+                >
+                  <small>Forgot password?</small>
+                </Link>
+              </div>
+
               <Button
                 text="Login"
                 variant="dark"
-                className="m-1 mt-3 w-full"
+                className="m-1 mt-1 mb-4 w-full"
                 onClick={() => {
                   setIsClicked(true);
                 }}
                 onMouseUp={() => setIsClicked(false)}
                 disabled={isLoading}
               />
+
+              <small className="text-right">
+                No account?{" "}
+                <Link to="/register" className="text-primary self-end">
+                  Create an account
+                </Link>
+              </small>
             </div>
           </Form>
         )}

@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   selectCurrentToken,
+  selectPersist,
   setCredentialsThunk,
 } from "../../redux/slices/authSlice";
 import { useRefreshTokenMutation } from "../../redux/api/refreshApiSlice";
@@ -12,6 +13,7 @@ const PersistLogin = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [refreshToken] = useRefreshTokenMutation();
   const token = useSelector(selectCurrentToken);
+  const persist = useSelector(selectPersist);
 
   useEffect(() => {
     const verifyRefreshToken = async () => {
@@ -41,7 +43,9 @@ const PersistLogin = () => {
     }
   }, []);
 
-  return <>{isLoading ? <p>Loading ...</p> : <Outlet />}</>;
+  return (
+    <>{!persist ? <Outlet /> : isLoading ? <p>Loading ...</p> : <Outlet />}</>
+  );
 };
 
 export default PersistLogin;

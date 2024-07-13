@@ -2,18 +2,18 @@ import { RiAccountPinBoxFill } from "react-icons/ri";
 import { IoMdSettings } from "react-icons/io";
 import { PiSignOutBold } from "react-icons/pi";
 import { useDispatch } from "react-redux";
-import { useLogoutMutation } from "../../redux/api/authApiSlice";
-import { setCredentials } from "../../redux/slices/authSlice";
+import { useSignoutMutation } from "../../redux/api/authApiSlice";
+import { logOut } from "../../redux/slices/authSlice";
 import { showToast } from "../";
 
 export default function ProfileButton() {
   const dispatch = useDispatch();
-  const [logout] = useLogoutMutation();
+  const [signout] = useSignoutMutation();
   const HandleLogout = async () => {
     await showToast(
-      logout(),
+      signout(),
       () => {
-        dispatch(setCredentials({ user: null, token: null }));
+        dispatch(logOut());
       },
       () => {}
     );
