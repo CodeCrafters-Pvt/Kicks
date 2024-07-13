@@ -35,13 +35,13 @@ const authRouter = require("./routes/auth");
 app.use("/auth", authRouter);
 const refreshRouter = require("./routes/refresh");
 app.use("/refresh", refreshRouter);
-const paymentRouter=require("./routes/payment")
-app.use("/payment", paymentRouter);
 
 
 app.use(requireAuth);
 const productRouter = require("./routes/product");
 app.use("/products", productRouter);
+const paymentRouter=require("./routes/payment")
+app.use("/payment", paymentRouter);
 
 mongoose
   .connect(process.env.MONGO_URI)
