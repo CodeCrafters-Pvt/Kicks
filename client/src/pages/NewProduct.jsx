@@ -166,7 +166,7 @@ const NewProduct = () => {
                     type="color"
                     label="Color"
                     component={Input}
-                    options={["#878B60","#607D8B","#09604B","#4E0960"]}
+                    options={["#FF0000","#00FF00","#0000FF","#FEEFFF","#000080","#000000","#800080","#FFC0CB", "#A52A2A","#808080","#0047AB","#808000","#228B22","#800000","#FFD700","#C0C0C0","#B76E79"]}
                     errorMsg={errors.sizes?.colors?.color}
                     errorId="color"
                     isBtnClicked={isClicked}

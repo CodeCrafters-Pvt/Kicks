@@ -1,34 +1,27 @@
-import { useEffect, useState } from 'react';
-import Card from '../components/products/collection/ProductsCard';
+import { useState } from 'react';
 import { FilterPanel, AllProducts } from "../components"
-import { useGetProductsQuery } from "../redux/api/productApiSlice"
-import SearchBar from '../components/products/SearchBar/Search';
+
 
 const Product = () => {
-  const { data: products } = useGetProductsQuery();
+
   const [selectedCategory, setSelectedCategory] = useState(null);
-  // const [searchTerm, setSearchTerm] = useState('');
+  const [selectedColor, setSelectedColor] = useState(null);
+ 
 
-  // const handleSearch = (event) => {
-  //   setSearchTerm(event.target.value);
-  // };
-
-
-  //Radio Filter
-  const handleChange = event => {
-    setSelectedCategory(event.target.value)
-  }
-
-
-  // function FilteredData(products, selected) {
-  //   if (selected) {
-  //     return products.filter(({ category }) => category === selected);
-  //   }
-  //   return products;
+  // //Radio Filter
+  // const handleChange = event => {
+  //   setSelectedCategory(event.target.value)
   // }
 
-  // const filteredProducts = FilteredData(products, selectedCategory);
+  const handleCategoryChange = event => {
+    setSelectedCategory(event.target.value);
+  };
 
+  const handleColorChange = color => {
+    // Set the color state
+    setSelectedColor(color === selectedColor ? null : color);
+  };
+  
 
 return (
   <>
@@ -36,24 +29,14 @@ return (
     <div className='flex justify-center'>
       {/* Filter container */}
       <div className='w-1/6 pl-8 p-4 '>
-        <FilterPanel handleChange={handleChange} />
+        <FilterPanel handleCategoryChange={handleCategoryChange} handleColorChange={handleColorChange} />
       </div>
 
       {/* Product cards */}
-      <AllProducts selectedCategory={selectedCategory} />
+     <AllProducts selectedCategory={selectedCategory} selectedColor={selectedColor} />
     </div>
 
-    {/* {filteredProducts.map(({ productID, images, productName, sellingPrice, regularPrice }) => (
-    <Card
-      key={productID}
-      images={images}
-      productName={productName}
-      sellingPrice={sellingPrice}
-      regularPrice={regularPrice}
 
-    />
-
-  ))} */}
   </>
 );
 };

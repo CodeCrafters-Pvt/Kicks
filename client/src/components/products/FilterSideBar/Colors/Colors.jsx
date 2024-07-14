@@ -1,57 +1,53 @@
-import React from 'react'
+
 import PropTypes from 'prop-types';
 import Input from '../Input';
-import { useState } from 'react';
 
-const Colors = ({ handleChange }) => {
+
+const Colors = ({ handleColorChange }) => {
 
   return (
     <>
-      <h2 className='text-xl font-normal mb-[20px]'>Category</h2>
-
-
-      <label className=' block relative pl-[20px] mb-[12px]'>
-        <input type="radio" name="test1" />
-        <span></span> All
-      </label>
-
+      <h2 className='text-xl font-normal mb-[20px]'>Color</h2>
 
       <Input
-        handleChange={handleChange}
-        value="Black"
+        handleChange={() => handleColorChange('All')}
+        value="All"
+        title="All"
+        name="test1"
+      />
+
+      <Input
+       handleChange={() => handleColorChange('#000000')}
+        value="#000000"
         title="Black"
         name="test1"
-        color="black"
       />
 
       <Input
-        handleChange={handleChange}
-        value="Red"
+        handleChange={() => handleColorChange('#ff0000')}
+        value="#ff0000"
         title="Red"
         name="test1"
-        color="red"
       />
 
       <Input
-        handleChange={handleChange}
-        value="Green"
+       handleChange={() => handleColorChange('#00ff00')}
+        value="#00ff00"
         title="Green"
         name="test1"
-        color="green"
       />
 
       <Input
-        handleChange={handleChange}
-        value="Purple"
+         handleChange={() => handleColorChange('#0000ff')}
+        value="#0000ff"
         title="Purple"
         name="test1"
-        color="purple"
       />
 
       <label className=' block relative pl-[20px] mb-[12px]'>
         <input
           type="radio"
-          onChange={handleChange}
+          onChange={handleColorChange}
           value="white" name="test1" />
         <span style={{
           background: "white",
@@ -65,7 +61,7 @@ const Colors = ({ handleChange }) => {
 }
 
 Colors.propTypes = {
-  handleChange: PropTypes.func,
+  handleColorChange: PropTypes.func,
 }
 
 

@@ -1,50 +1,44 @@
-import React from 'react'
 import Input from '../Input'
-
 import PropTypes from 'prop-types';
 
-const Category = ({handleChange}) => {
+const Category = ({handleCategoryChange}) => {
   return (
     <>
    <h2 className='text-xl font-normal mb-[20px]'>Category</h2>   
   
-   {/* <label className=' block relative pl-[20px] mb-[12px]'>
-    <Input onChange={handleChange} type="radio" name="test"/>
-    <span></span> All
-   </label> */}
 
    <Input 
-   handleChange={handleChange}
+   handleChange={handleCategoryChange}
    value="All"
    title = "All"
    name="test"
     />
    <Input 
-   handleChange={handleChange}
+   handleChange={handleCategoryChange}
    value="Sneaker"
    title = "Sneaker"
    name="test"
     />
     <Input 
-   handleChange={handleChange}
+   handleChange={handleCategoryChange}
    value="Heels"
    title = "Heels"
    name="test"
     />
       <Input 
-   handleChange={handleChange}
+   handleChange={handleCategoryChange}
    value="Shoes"
    title = "Shoes"
    name="test"
     />
       <Input 
-   handleChange={handleChange}
-   value="Flip flops"
-   title = "Flip Flops"
+   handleChange={handleCategoryChange}
+   value="Flip flop"
+   title = "Flip Flop"
    name="test"
     />
       <Input 
-   handleChange={handleChange}
+   handleChange={handleCategoryChange}
    value="Flats"
    title = "Flats"
    name="test"
@@ -54,7 +48,7 @@ const Category = ({handleChange}) => {
 }
 
 Category.propTypes = {
-  handleChange: PropTypes.func,
+  handleCategoryChange: PropTypes.func,
 }
 
 export default Category
