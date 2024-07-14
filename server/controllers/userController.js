@@ -77,8 +77,6 @@ const sendOtp = async (req,res)=>{
 }
 
 
-
-
 //create user
 const createUser = async (req,res)=>{
     const {otp,...userDetails}= req.body
