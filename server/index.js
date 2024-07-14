@@ -4,10 +4,10 @@ const app = express();
 const mongoose = require("mongoose");
 const cronJob = require("./schedulers/removeUsers");
 const requireAuth = require("./middlewears/requireAuth");
-const credentials=require('./middlewears/credentials')
+const credentials = require("./middlewears/credentials");
 const cors = require("cors");
-const corsOptions=require("./config/corsOptions")
-const cookieParser = require("cookie-parser")
+const corsOptions = require("./config/corsOptions");
+const cookieParser = require("cookie-parser");
 
 app.use(express.json());
 
@@ -17,16 +17,15 @@ app.use(express.json());
 //   optionSuccessStatus: 200,
 // };
 
-app.use(credentials)
+app.use(credentials);
 app.use(cors(corsOptions));
 
 //middleWear
-app.use(cookieParser())
+app.use(cookieParser());
 app.use((req, res, next) => {
   console.log(req.path, req.method);
   next();
 });
-
 
 //Routers
 const userRouter = require("./routes/user");
@@ -36,12 +35,13 @@ app.use("/auth", authRouter);
 const refreshRouter = require("./routes/refresh");
 app.use("/refresh", refreshRouter);
 
-
 app.use(requireAuth);
 const productRouter = require("./routes/product");
 app.use("/products", productRouter);
-const paymentRouter=require("./routes/payment")
+const paymentRouter = require("./routes/payment");
 app.use("/payment", paymentRouter);
+const cartRouter = require("./routes/cart");
+app.use("/cart", cartRouter);
 
 mongoose
   .connect(process.env.MONGO_URI)
