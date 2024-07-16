@@ -1,73 +1,69 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+
+const StockSchema = new Schema({
+  color: {
+    type: String,
+    required: true,
+  },
+  size: {
+    type: Number,
+    required: true,
+  },
+  stock: {
+    type: Number,
+    required: true,
+    default: 0,
+  },
+});
 
 const ProductSchema = new Schema(
   {
-    productID: {
+    productId: {
       type: String,
       required: true,
     },
-    productName: {
+    name: {
       type: String,
       required: true,
     },
-    productCollection: {
+    brand: {
       type: String,
       required: true,
     },
-    brandName: {
-      type: String,
-      required: true,
-    },
-    category: {
-      type: String,
-      required: true,
-    },
-    regularPrice: {
-      type: String,
+    markedPrice: {
+      type: Number,
       required: true,
     },
     sellingPrice: {
+      type: Number,
+      required: true,
+    },
+    description: {
       type: String,
       required: true,
     },
-    sizes: {
-      size: {
-        type: String,
-        required: true,
-      },
-      colors: {
-        color: {
-          type: String,
-          required: true,
-        },
-        stocks: {
-          stockID: {
-            type: String,
-            required: false,
-          },
-          qty: {
-            type: String,
-            required: false,
-          },
-        },
-      },
-    },
-    productDesc: {
+    gender: {
       type: String,
-      required: false,
+      enum: ["kids", "female", "male", "uni"],
+      required: true,
     },
-    // image: {
-    //   data: Buffer, 
-    //   contentType: String, 
-      
-    // },
-    image: {
-      type: String, 
-     required:true, 
+    type: {
+      type: String,
+      enum: [
+        "sneakers",
+        "loafers",
+        "boots",
+        "sandals",
+        "heels",
+        "flats",
+        "other",
+      ],
+      required: true,
+    },
+    stocks: [StockSchema],
   },
-  },
-  { timestamps: false }
+  { timestamps: true }
 );
 
-module.exports = mongoose.model('Product', ProductSchema);
+module.exports = mongoose.model("Product", ProductSchema);

@@ -15,6 +15,7 @@ import {
   LandingPage,
   Cart,
   Checkout,
+  AddProduct,
 } from "./pages";
 import { RequireAuth, PersistLogin } from "./components";
 import { RootLayout, AuthLayout, UserLayout } from "./layouts";
@@ -37,6 +38,7 @@ function App() {
           {/* User Routes */}
           <Route element={<RequireAuth allowedRoles={["2001"]} />}>
             <Route element={<UserLayout />}>
+              <Route path="/add-product" element={<AddProduct />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/check-out" element={<Checkout />} />

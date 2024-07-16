@@ -37,7 +37,7 @@ app.use("/refresh", refreshRouter);
 
 app.use(requireAuth);
 const productRouter = require("./routes/product");
-app.use("/products", productRouter);
+app.use("/product", productRouter);
 const paymentRouter = require("./routes/payment");
 app.use("/payment", paymentRouter);
 const cartRouter = require("./routes/cart");

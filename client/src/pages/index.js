@@ -6,6 +6,7 @@ import Profile from "./Profile";
 import LandingPage from "./LandingPage";
 import Cart from "./Cart";
 import Checkout from "./Checkout";
+import AddProduct from "./addProduct";
 
 export {
   Login,
@@ -15,5 +16,6 @@ export {
   Profile,
   LandingPage,
   Cart,
-  Checkout
+  Checkout,
+  AddProduct,
 };
