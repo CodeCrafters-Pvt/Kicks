@@ -18,13 +18,13 @@ import {
   AddProduct,
 } from "./pages";
 import { RequireAuth, PersistLogin } from "./components";
-import { RootLayout, AuthLayout, UserLayout } from "./layouts";
+import { RootLayout, AuthLayout, AdminLayout, UserLayout } from "./layouts";
 
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<RootLayout />}>
-        <Route path="/landing-page" element={<LandingPage />} />
+        <Route path="/" element={<LandingPage />} />
         {/* public Routes */}
         <Route element={<AuthLayout />}>
           <Route path="/register" element={<RegisterUser />} />
@@ -37,8 +37,10 @@ function App() {
         <Route element={<PersistLogin />}>
           {/* User Routes */}
           <Route element={<RequireAuth allowedRoles={["2001"]} />}>
-            <Route element={<UserLayout />}>
+            <Route element={<AdminLayout />}>
               <Route path="/add-product" element={<AddProduct />} />
+            </Route>
+            <Route element={<UserLayout />}>
               <Route path="/profile" element={<Profile />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/check-out" element={<Checkout />} />
