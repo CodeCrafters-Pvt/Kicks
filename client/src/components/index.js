@@ -3,7 +3,7 @@ import Input from "./general/Input";
 import { showToast } from "./general/ShowToast";
 import RequireAuth from "./routing/RequireAuth";
 import PersistLogin from "./routing/PersistLogin";
-import NavBar from "./navBar/NavBar";
+import NavBar from "./navBar/userNav/NavBar";
 import Brands from "./landingPage/Brands";
 import DesignCategories from "./landingPage/DesignCategories";
 import Footer from "./general/Footer";
@@ -16,8 +16,9 @@ import PricingSummary from "./checkOut/PricingSummary";
 import CheckoutStep1 from "./checkOut/Step1";
 import OrderSummary from "./checkOut/OrderSummary";
 import CheckOutStep2 from "./checkOut/Step2";
-import ProfileButton from "./navBar/ProfileButton";
+import ProfileButton from "./navBar/userNav/ProfileButton";
 import Loader from "./general/Loader";
+import AdminNavBar from "./navBar/adminNav/NavBar";
 
 export {
   Button,
@@ -40,4 +41,5 @@ export {
   CheckOutStep2,
   ProfileButton,
   Loader,
+  AdminNavBar,
 };

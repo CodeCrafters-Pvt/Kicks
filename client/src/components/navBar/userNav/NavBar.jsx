@@ -1,8 +1,8 @@
 import { NavLink } from "react-router-dom";
 import Link from "./Link";
 import SearchBar from "./SearchBar";
-import { ProfileButton } from "../";
-import Logo from "../../assets/logo.png";
+import { ProfileButton } from "../../";
+import Logo from "../../../assets/logo.png";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import { BsCart, BsCartFill } from "react-icons/bs";
 import { HiOutlineUser, HiUser } from "react-icons/hi";

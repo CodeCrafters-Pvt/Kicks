@@ -2,9 +2,9 @@ import { RiAccountPinBoxFill } from "react-icons/ri";
 import { IoMdSettings } from "react-icons/io";
 import { PiSignOutBold } from "react-icons/pi";
 import { useDispatch } from "react-redux";
-import { useSignoutMutation } from "../../redux/api/authApiSlice";
-import { logOut } from "../../redux/slices/authSlice";
-import { showToast } from "../";
+import { useSignoutMutation } from "../../../redux/api/authApiSlice";
+import { logOut } from "../../../redux/slices/authSlice";
+import { showToast } from "../../";
 
 export default function ProfileButton() {
   const dispatch = useDispatch();
