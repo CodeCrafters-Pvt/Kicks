@@ -19,6 +19,7 @@ export default function Input({
   inputStyle,
   labelStyle,
   textArea = false,
+  rows,
   options,
   setFieldValue,
   isBtnClicked,
@@ -70,6 +71,7 @@ export default function Input({
       borderColor: borderColor,
       borderRight: showError && 0,
       borderRadius: showError ? "0.3rem 0 0 0.3rem" : "0.3rem",
+      cursor: "pointer",
     }),
   };
 
@@ -253,6 +255,7 @@ export default function Input({
             " outline-red-500 focus:outline-red-500 focus:ring-red-500"
           }`}
           animate={animation}
+          rows={rows}
         />
       )}
 
@@ -330,4 +333,5 @@ Input.propTypes = {
   className: PropTypes.string,
   isChecked: PropTypes.bool,
   onChange: PropTypes.func,
+  rows: PropTypes.number,
 };
