@@ -20,10 +20,10 @@ export default function NavBar() {
 
   return (
     <div className="relative">
-      <div className="w-[100vw] h-[8vh]  shadow-lg flex justify-between ">
+      <div className="py-1 shadow-lg flex justify-between ">
         <button
           onClick={toggleNavBar}
-          className="border-2 rounded-md m-2 px-1 text-2xl"
+          className="border-2 rounded-md m-2 p-1 text-2xl"
         >
           {isOpen ? <ImCross /> : <TiThMenu />}
         </button>
@@ -38,13 +38,13 @@ export default function NavBar() {
         initial={{ x: "-100%" }}
         animate={{ x: isOpen ? "0%" : "-100%" }}
         transition={{ ease: "easeInOut", duration: 0.5 }}
-        className="bg-white h-[100vh] w-[15%] shadow-lg fixed"
+        className="bg-white h-screen w-[15%] shadow-lg fixed"
       >
         <img src={logo} alt="kicks" className="w-1/2 mx-auto mt-8" />
 
         <div className="mt-16 mx-auto w-4/5 flex flex-col gap-6 ">
           <Link to="/admin" Icon={MdSpaceDashboard} text="DASHBOARD" />
-          <Link to="/" Icon={GiConverseShoe} text="PRODUCTS" />
+          <Link to="/add-product" Icon={GiConverseShoe} text="PRODUCTS" />
           <Link to="/" Icon={PiPackageFill} text="ORDERS" />
         </div>
       </motion.div>

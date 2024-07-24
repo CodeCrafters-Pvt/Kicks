@@ -19,6 +19,9 @@ import CheckOutStep2 from "./checkOut/Step2";
 import ProfileButton from "./navBar/userNav/ProfileButton";
 import Loader from "./general/Loader";
 import AdminNavBar from "./navBar/adminNav/NavBar";
+import ImageUploader from "./general/ImageUploader";
+import Popup from "./general/Popup";
+import AddBrand from "./addProduct/AddBrand";
 
 export {
   Button,
@@ -42,4 +45,7 @@ export {
   ProfileButton,
   Loader,
   AdminNavBar,
+  ImageUploader,
+  Popup,
+  AddBrand,
 };

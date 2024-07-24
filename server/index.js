@@ -36,6 +36,8 @@ const refreshRouter = require("./routes/refresh");
 app.use("/refresh", refreshRouter);
 
 app.use(requireAuth);
+const brandRouter = require("./routes/brand");
+app.use("/brand", brandRouter);
 const productRouter = require("./routes/product");
 app.use("/product", productRouter);
 const paymentRouter = require("./routes/payment");

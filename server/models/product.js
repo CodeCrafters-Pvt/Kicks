@@ -28,7 +28,8 @@ const ProductSchema = new Schema(
       required: true,
     },
     brand: {
-      type: String,
+      type: Schema.Types.ObjectId,
+      ref: "Brand",
       required: true,
     },
     markedPrice: {
@@ -41,7 +42,7 @@ const ProductSchema = new Schema(
     },
     description: {
       type: String,
-      required: true,
+      required: false,
     },
     gender: {
       type: String,
@@ -65,5 +66,13 @@ const ProductSchema = new Schema(
   },
   { timestamps: true }
 );
+
+ProductSchema.statics.getGenderEnumValues = function () {
+  return this.schema.path("gender").enumValues;
+};
+
+ProductSchema.statics.getTypeEnumValues = function () {
+  return this.schema.path("type").enumValues;
+};
 
 module.exports = mongoose.model("Product", ProductSchema);
