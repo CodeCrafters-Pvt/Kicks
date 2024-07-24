@@ -1,15 +1,29 @@
 import { useEffect, useState } from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import { Input, Button, showToast } from "../components";
+import {
+  Input,
+  Button,
+  showToast,
+  ImageUploader,
+  AddBrand,
+  Loader,
+} from "../components";
 import { useNavigate } from "react-router-dom";
-import { useCreateProductMutation } from "../redux/api/productApiSlice";
+import {
+  useCreateProductMutation,
+  useFetchEnumsQuery,
+  useGenerateIDQuery,
+} from "../redux/api/productApiSlice";
 
 export default function AddProduct() {
   const navigate = useNavigate();
   const [createProduct] = useCreateProductMutation();
+  const { data: enums, isLoading: enumsLoading } = useFetchEnumsQuery();
+  const { data: ID, isLoading: IDloading } = useGenerateIDQuery();
+
   const initialValues = {
-    productId: "",
+    productId: ID,
     name: "",
     brand: "",
     markedPrice: "",
@@ -19,22 +33,22 @@ export default function AddProduct() {
     type: "",
   };
 
+  const [selectedFiles, setSelectedFiles] = useState([]);
+
   const [isClicked, setIsClicked] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
 
   const validationSchema = Yup.object().shape({
-    productId: Yup.string().required("Product ID is required"),
-    name: Yup.string().required("Name is required"),
-    brand: Yup.string().required("Brand is required"),
-    markedPrice: Yup.number()
-      .required("Marked Price is required")
-      .positive("Marked Price must be positive"),
+    productId: Yup.string().required("required"),
+    name: Yup.string().required("required"),
+    brand: Yup.string().required("required"),
+    markedPrice: Yup.number().required("required").positive("must be positive"),
     sellingPrice: Yup.number()
-      .required("Selling Price is required")
-      .positive("Selling Price must be positive"),
-    description: Yup.string().required("Description is required"),
-    gender: Yup.string().required("Gender is required"),
-    type: Yup.string().required("Type is required"),
+      .required("required")
+      .positive("must be positive"),
+    gender: Yup.string().required("required"),
+    type: Yup.string().required("required"),
   });
 
   const handleAdd = async (values) => {
@@ -43,7 +57,11 @@ export default function AddProduct() {
       createProduct(values),
       () => {
         setIsLoading(false);
-        navigate("/");
+        if (isChecked) {
+          navigate("/restock");
+        } else {
+          navigate("/admin");
+        }
       },
       () => {
         setIsLoading(false);
@@ -51,160 +69,183 @@ export default function AddProduct() {
     );
   };
 
-  const brands = [
-    { value: "nike", label: "Nike" },
-    { value: "adidas", label: "Adidas" },
-    { value: "puma", label: "Puma" },
-    { value: "reebok", label: "Reebok" },
-    { value: "new_balance", label: "New Balance" },
-    { value: "asics", label: "ASICS" },
-    { value: "under_armour", label: "Under Armour" },
-    { value: "converse", label: "Converse" },
-    { value: "skechers", label: "Skechers" },
-    { value: "vans", label: "Vans" },
-    { value: "brooks", label: "Brooks" },
-    { value: "saucony", label: "Saucony" },
-    { value: "fila", label: "Fila" },
-  ];
+  const brands =
+    enums?.brandEnum.map((brand) => ({
+      value: brand.id,
+      label: brand.name,
+    })) || [];
 
-  const genderOptions = [
-    { value: "male", label: "Male" },
-    { value: "female", label: "Female" },
-    { value: "unisex", label: "Unisex" },
-    { value: "kids", label: "Kids" },
-  ];
+  const genderOptions =
+    enums?.genderEnum.map((gender) => ({
+      value: gender,
+      label: gender.charAt(0).toUpperCase() + gender.slice(1),
+    })) || [];
 
-  const shoeTypes = [
-    { value: "running", label: "Running" },
-    { value: "casual", label: "Casual" },
-    { value: "formal", label: "Formal" },
-    { value: "sports", label: "Sports" },
-    { value: "boots", label: "Boots" },
-    { value: "sandals", label: "Sandals" },
-    { value: "slippers", label: "Slippers" },
-    { value: "sneakers", label: "Sneakers" },
-    { value: "heels", label: "Heels" },
-  ];
+  const shoeTypes =
+    enums?.typeEnum.map((type) => ({
+      value: type,
+      label: type.charAt(0).toUpperCase() + type.slice(1),
+    })) || [];
 
-  return (
-    <div className="mt-6 bg-white w-2/3 mx-auto rounded-lg">
-      <Formik initialValues={initialValues} onSubmit={handleAdd}>
-        {({ errors, touched, setFieldValue }) => (
-          <Form>
-            {/* <span className=" font-heading">Product Details</span> */}
-            <div className="flex justify-between mx-12 ">
-              <div className="mt-6 w-flex flex-col">
-                <div className="flex">
-                  <Field
-                    name="productId"
-                    label="Product ID"
-                    component={Input}
-                    placeholder="Product ID"
-                    errorId="productId"
-                    errorMsg={touched.productId && errors.productId}
-                  />
-                  <Field
-                    name="name"
-                    label="Product Name"
-                    component={Input}
-                    placeholder="Name"
-                    errorId="name"
-                    errorMsg={touched.name && errors.name}
-                  />
-                </div>
-                <Field
-                  name="description"
-                  label="Description"
-                  component={Input}
-                  placeholder="Description"
-                  errorId="description"
-                  errorMsg={touched.description && errors.description}
-                  rows="5"
-                  textArea
-                />
-                <Field
-                  name="brand"
-                  label="Brand"
-                  component={Input}
-                  placeholder="Brand"
-                  errorId="brand"
-                  errorMsg={touched.brand && errors.brand}
-                  type="select"
-                  options={brands}
-                  setFieldValue={setFieldValue}
-                />
-                <div className="flex">
-                  <div className="w-1/2">
+  return enumsLoading || IDloading ? (
+    <Loader />
+  ) : (
+    <div>
+      <span className="font-heading text-2xl  block w-2/3 mx-auto my-2">
+        Add Product
+      </span>
+      <div className="bg-white w-2/3 mx-auto rounded-lg shadow-md">
+        <Formik
+          initialValues={initialValues}
+          onSubmit={handleAdd}
+          validationSchema={validationSchema}
+        >
+          {({ errors, touched, setFieldValue }) => (
+            <Form>
+              <div className="flex justify-between p-4 pb-10 gap-3">
+                <div className="flex flex-col">
+                  <div className="flex">
                     <Field
-                      name="gender"
-                      label="Gender"
+                      name="productId"
+                      label="Product ID"
                       component={Input}
-                      placeholder="Gender"
-                      errorId="gender"
-                      errorMsg={touched.gender && errors.gender}
-                      type="select"
-                      options={genderOptions}
-                      setFieldValue={setFieldValue}
+                      placeholder="Product ID"
+                      errorId="productId"
+                      errorMsg={touched.productId && errors.productId}
+                      disabled={true}
+                    />
+                    <Field
+                      name="name"
+                      label="Product Name"
+                      component={Input}
+                      placeholder="Name"
+                      errorId="name"
+                      errorMsg={touched.name && errors.name}
+                      isBtnClicked={isClicked}
                     />
                   </div>
-                  <div className="w-1/2">
+                  <Field
+                    name="description"
+                    label="Description"
+                    component={Input}
+                    placeholder="Description"
+                    errorId="description"
+                    errorMsg={touched.description && errors.description}
+                    rows={5}
+                    textArea
+                  />
+                  <div className="relative">
+                    <AddBrand />
                     <Field
-                      name="type"
-                      label="Type"
+                      name="brand"
+                      label="Brand"
                       component={Input}
-                      placeholder="Type"
-                      errorId="type"
-                      errorMsg={touched.type && errors.type}
+                      placeholder="Brand"
+                      errorId="brand"
+                      errorMsg={touched.brand && errors.brand}
                       type="select"
-                      options={shoeTypes}
+                      options={brands}
                       setFieldValue={setFieldValue}
+                      isBtnClicked={isClicked}
+                    />
+                  </div>
+                  <div className="flex">
+                    <div className="w-1/2">
+                      <Field
+                        name="gender"
+                        label="Gender"
+                        component={Input}
+                        placeholder="Gender"
+                        errorId="gender"
+                        errorMsg={touched.gender && errors.gender}
+                        type="select"
+                        options={genderOptions}
+                        setFieldValue={setFieldValue}
+                        isBtnClicked={isClicked}
+                      />
+                    </div>
+                    <div className="w-1/2">
+                      <Field
+                        name="type"
+                        label="Type"
+                        component={Input}
+                        placeholder="Type"
+                        errorId="type"
+                        errorMsg={touched.type && errors.type}
+                        type="select"
+                        options={shoeTypes}
+                        setFieldValue={setFieldValue}
+                        isBtnClicked={isClicked}
+                      />
+                    </div>
+                  </div>
+                  <div className="flex">
+                    <Field
+                      name="markedPrice"
+                      label="Marked Price"
+                      component={Input}
+                      placeholder="Marked Price"
+                      errorId="markedPrice"
+                      errorMsg={touched.markedPrice && errors.markedPrice}
+                      isBtnClicked={isClicked}
+                      type="number"
+                    />
+                    <Field
+                      name="sellingPrice"
+                      label="Selling Price"
+                      component={Input}
+                      placeholder="Selling Price"
+                      errorId="sellingPrice"
+                      errorMsg={touched.sellingPrice && errors.sellingPrice}
+                      isBtnClicked={isClicked}
+                      type="number"
                     />
                   </div>
                 </div>
-                <div className="flex">
-                  <Field
-                    name="markedPrice"
-                    label="Marked Price"
-                    component={Input}
-                    placeholder="Marked Price"
-                    errorId="markedPrice"
-                    errorMsg={touched.markedPrice && errors.markedPrice}
-                  />
-                  <Field
-                    name="sellingPrice"
-                    label="Selling Price"
-                    component={Input}
-                    placeholder="Selling Price"
-                    errorId="sellingPrice"
-                    errorMsg={touched.sellingPrice && errors.sellingPrice}
-                  />
+                <div className="w-1/2  flex flex-col justify-between">
+                  <ImageUploader setSelectedFiles={setSelectedFiles} />
+                  <div className="flex gap-3 relative self-end top-6">
+                    <div
+                      onClick={() => {
+                        setIsChecked((prev) => !prev);
+                      }}
+                      className={`flex items-center mr-2 border-2  pr-2 rounded-md cursor-pointer
+                    ${isChecked && "border-primary"}
+                    `}
+                    >
+                      <Input
+                        type="checkbox"
+                        field="select"
+                        className=""
+                        isChecked={isChecked}
+                      />
+                      <span className="mt-1">Stock-Up</span>
+                    </div>
+
+                    <Button
+                      text="Cancel"
+                      onClick={() => {
+                        setIsClicked(true);
+                      }}
+                      onMouseUp={() => setIsClicked(false)}
+                      disabled={isLoading}
+                    />
+                    <Button
+                      text="Add Product"
+                      variant="dark"
+                      onClick={() => {
+                        setIsClicked(true);
+                      }}
+                      onMouseUp={() => setIsClicked(false)}
+                      disabled={isLoading}
+                    />
+                  </div>
                 </div>
               </div>
-              <div>
-                <div className="flex gap-2">
-                  <Button
-                    text="Cancel"
-                    onClick={() => {
-                      setIsClicked(true);
-                    }}
-                    onMouseUp={() => setIsClicked(false)}
-                    disabled={isLoading}
-                  />
-                  <Button
-                    text="Add Product"
-                    variant="dark"
-                    onClick={() => {
-                      setIsClicked(true);
-                    }}
-                    onMouseUp={() => setIsClicked(false)}
-                    disabled={isLoading}
-                  />
-                </div>
-              </div>
-            </div>
-          </Form>
-        )}
-      </Formik>
+            </Form>
+          )}
+        </Formik>
+      </div>
     </div>
   );
 }

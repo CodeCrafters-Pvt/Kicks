@@ -44,7 +44,7 @@ export default function NavBar() {
 
         <div className="mt-16 mx-auto w-4/5 flex flex-col gap-6 ">
           <Link to="/admin" Icon={MdSpaceDashboard} text="DASHBOARD" />
-          <Link to="/" Icon={GiConverseShoe} text="PRODUCTS" />
+          <Link to="/add-product" Icon={GiConverseShoe} text="PRODUCTS" />
           <Link to="/" Icon={PiPackageFill} text="ORDERS" />
         </div>
       </motion.div>

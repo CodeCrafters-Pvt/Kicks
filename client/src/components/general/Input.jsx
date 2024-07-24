@@ -32,6 +32,7 @@ export default function Input({
   handleSelectAll,
   isChecked,
   onChange,
+  disabled = false,
   className,
 }) {
   const inputRef = useRef(null);
@@ -129,13 +130,21 @@ export default function Input({
               onMouseEnter={() => setIsHovered(true)}
               onMouseLeave={() => setIsHovered(false)}
               animate={animation}
+              disabled={disabled}
               className={`
               w-[14vw]   px-2 leading-7
-        ${bordered && "border border-r-0 border-dark rounded-l-[0.3rem]"}
-        ${!bordered && " border-b border-gray-400 bg-transparent"}
-        ${isHovered && "border-inputOnFocus"}
-        ${isInputFocused && " outline-none border-inputOnFocus "}
+      
         ${
+          !disabled &&
+          bordered &&
+          "border border-r-0 border-dark rounded-l-[0.3rem]"
+        }
+        ${disabled && bordered && "border border-r-0  rounded-l-[0.3rem]"}
+        ${!disabled && !bordered && " border-b border-gray-400 bg-transparent"}
+        ${!disabled && isHovered && "border-inputOnFocus"}
+        ${!disabled && isInputFocused && " outline-none border-inputOnFocus "}
+        ${
+          !disabled &&
           initialClick &&
           errorMsg &&
           "border-red-500 focus:border-red-500 focus:ring-red-500"
@@ -151,14 +160,25 @@ export default function Input({
               onMouseLeave={() => setIsHovered(false)}
               animate={animation}
               className={`h-8 cursor-text bg-light flex items-center w-5
-              ${bordered && "border border-l-0 border-dark rounded-r-[0.3rem]"} 
               ${
+                !disabled &&
+                bordered &&
+                "border border-l-0 border-dark rounded-r-[0.3rem]"
+              } 
+              ${
+                disabled &&
+                bordered &&
+                "border border-l-0 !bg-slate-50 rounded-r-[0.3rem]"
+              } 
+              ${
+                !disabled &&
                 !bordered &&
                 " border-b border-gray-400 bg-transparent outline-none"
               }
-        ${isHovered && "border-inputOnFocus"}
-        ${isInputFocused && "outline-none border-inputOnFocus"}
+        ${!disabled && isHovered && "border-inputOnFocus"}
+        ${!disabled && isInputFocused && "outline-none border-inputOnFocus"}
         ${
+          !disabled &&
           initialClick &&
           errorMsg &&
           "border-red-500 focus:border-red-500 focus:ring-red-500"
@@ -334,4 +354,5 @@ Input.propTypes = {
   isChecked: PropTypes.bool,
   onChange: PropTypes.func,
   rows: PropTypes.number,
+  disabled: PropTypes.bool,
 };
